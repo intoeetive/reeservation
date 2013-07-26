@@ -1,0 +1,517 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <title>rEEservation</title>
+
+  <style type="text/css" media="screen,print">@import url("docs.css");</style>
+<META http-equiv=Content-Type content="text/html; charset=utf-8"></head>
+
+<body>
+<div><a name="top"></a></div>
+
+<div id="header">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%;"><tr>
+<td class="docheading" style="width:300px;"><h1 style="font-size: 18px; font-weight: bold;">intoEEtive.com</h1></td>
+<td class="searchbox">
+
+</td>
+</tr>
+</table>
+</div>
+
+
+<div id="navlinks">
+<a href="http://www.intoeetive.com/">intoEEtive.com</a> &gt;
+<a href="http://www.intoeetive.com/index.php/category/extending_ee">EE add-ons</a> &gt;
+<a href="http://www.intoeetive.com/index.php/comments/reeservation-booking-engine">rEEservation</a>
+</div>
+
+
+<div id="content">
+
+	<h1>rEEservation</h1>
+
+	<p>rEEservation is the add-on for ExpressionEngine 2.x that enables you to accept reservations/bookings on your website and handle them easily. In can be used to book hotel rooms, tickets for event etc.</p>
+
+	<ul>
+
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#structure">Add-on structure</a></li>
+        <li><a href="#settings">Settings</a></li>
+        <li><a href="#email">Email templates</a></li>
+        <li><a href="#cp">Control Panel overview</a></li>
+        
+        <li><a href="#form">Booking form</a></li>
+        <li><a href="#display">Check availability of object for a certain date</a></li>
+        <li><a href="#multicheck">Check availability of several objects</a></li>
+        <li><a href="#calendar">Display available dates in calendar</a></li>        
+        <li><a href="#list">List and edit bookings</a></li>
+        
+        <li><a href="#paypal">PayPal integration</a></li>
+        
+	</ul>
+
+	<h2><a name="installation"></a>Installation</h2>
+
+<p>Unzip the files into your /expressionengine/system/third_party directory. Then go to Add-ons/Modules section in your Control Panel and perform installation.
+</p>
+<p>If you want to be able to send notification to customers when status of their booking changes, you should also enable the rEEservation extension.</p>
+<p>If you want to enable your customer instant PayPal payment for the booking made, enable rEEservation PalPal extension and make sure Simple Commerce module is installed and all settings are correct. Fill in the settings for rEEservation PalPal extension as well. If you are using PayPal Sandbox, set <code>var $debug = TRUE</code> in both mod.simple_commerce.php and ext.reeservation_paypal.php</p>
+
+	<h2><a name="structure"></a>Add-on structure</h2>
+
+<p>The rEEservation add-on for ExpressionEngine consists of module and extension (and also optional extension to enable PayPal payments).
+</p>
+<p>The module is responsible for creation of booking record, checking whether there are places available and  displaying the booking details and for managing of reservations.</p>
+<p>The extension is responsible for sending email notifications when status of the booking has been changed.</p>
+<p>Please put attention that settings for rEEservation module, rEEservation extension and rEEservation PayPal extensions are edited separately.</p>
+<p>To make use of module, you should create a channel in EE that will contain entries for objects that can be booked. Name it, for instance, 'Hotel'. Next, create entries in this channel that correspond to booking object. Name them, for instance, 'Room 1', 'Room 2', 'Room 3 Deluxe' etc. The entries can contain any data, you can use them to diplay information on your site's pages.</p>
+<p>It is also possible to expand the add-on by creating your own extension. For example, you can integrate payment gateway. Or register member, if he's not registered yet. To do this, make use of following <strong>hooks</strong>:</p>
+<ul>
+<li><strong>reeservation_booking_status_change</strong> (mcp.reeservation.php) - do additional processing when booking status is changed. <br />Accepted parameters:
+    <ul>
+        <li>booking_id - id of booking</li>
+        <li>status - new status of booking (open/pending/closed/rejected)</li>
+        <li>send - whether to send notification to user this time (true/false)</li>
+        <li>includecomment - include moderator's comment with the notification (true/false)</li>
+    </ul>
+</li>
+<li><strong>reeservation_booking_created_start</strong> (mod.reeservation.php) - do something before and booking recording begins. You can bind you CAPTCHA extension to this hook, or modify any POST data.
+<li><strong>reeservation_booking_created_end</strong> (mod.reeservation.php) - do additional processing when booking record is created, but no notification sent yet. <br />Accepted parameters:
+    <ul>
+        <li>booking_id - id of booking</li>
+        <li>data - the array of data inserted into database</li>
+    </ul>
+</li>
+<li><strong>reeservation_booking_created_absolute_end</strong> (mod.reeservation.php) - do additional processing when booking creation process is completely finished, just before the redirect. <br />Accepted parameters:
+    <ul>
+        <li>booking_id - id of booking</li>
+        <li>data - the array of data inserted into database</li>
+    </ul>
+</li>
+</ul>
+
+	<h2><a name="settings"></a>Settings</h2>
+
+<p>On the settings page in the module's Control Panel you can set various settings. They include:
+<ul>
+<li><strong>Default booking status</strong> &mdash; status that will be assigned to booking when it is created. Possible values are 'Open/approved', 'Cancelled by user', 'Rejected (by admin)', 'Pending payment / approval'</li>
+<li><strong>Allow multiple bookings</strong> &mdash; determines whether same object can be reserved by several people for the same date</li>
+<li><strong>Limit of bookings per object</strong> &mdash; you can set the numbers of bookings you can have for the same entry and date (if multiple bookings allowed)</li>
+<li><strong>Bookings limit field</strong> &mdash; you can limit the number of booking for same date on per-entry level. The smaller numbers takes precedence.</li>
+<li><strong>Channels</strong> &mdash; EE channels that contain entries for objects that can be booked</li>
+<li><strong>Booking-enabled entries</strong> &mdash; each object you want to be booked should be represented by a channel entry. Select all that apply here. OPTIONAL for front-ends bookings, but still required for control panel bookings and higly recommended to select in order to get proper dropdowns in search forms etc.</li>
+<li><strong>Lock pending bookings</strong> &mdash; if your default booking status is 'pending' you can set a timeout here. This is period of time when no bookings are accepted for the object. It can be used to give user some time to make payment or to give admin time to review the booking. After this time, other people can try reserving this object again (even if you have Allow multiple bookings set to No)</li>
+<li><strong>Use CAPTCHA</strong> &mdash; allows you to use CAPTCHA check in booking form. 
+<p class="important">If you are using any CAPTCHA extension, you should make appropriate record for reeservation_booking_created_start hook</p>
+</li>
+<li><strong>Redirect timeout</strong> &mdash; time to show success message after booking has been completed. 0 for immediare redirect to landing page</li>
+<li><strong>Notification email</strong> &mdash; email address to send admin notifications about new bookings. Separate multiple addresses with comma.</li>
+<li><strong>Send admin notification</strong> &mdash; the notification  mentioned above will be sent only if you set this to 'yes'</li>
+<li><strong>Send owner notification</strong> &mdash; send notification about new booking to object owner (entry author)</li>
+<li><strong>Send customer notification</strong> &mdash; send notification to customer confirming his request has been accepted</li>
+</ul>
+</p>
+
+
+<p>Statuses explained:</p>
+<ul>
+<li>Open / approved - indicates valid booking. No more bookings are possible for the same object &amp; date (unless you have Allow multiple bookings set to Yes)</li>
+<li>Pending - booking request recieved, but not approved yet by admin. No bookings are possible for the same object &amp; date for the period in munites defined by Lock pending bookings settings after booking time (unless you have Allow multiple bookings set to Yes)</li>
+<li>Rejected - the booking has been rejected by administrator</li>
+<li>Cancelled - the booking has been cancelled by customer. The add-on intentionally does not provide a way for customers to cancel their booking due to possible misuse, that should be dome by administrator on request.</li>
+</ul>
+
+	<h2><a name="email"></a>Email templates</h2>
+    
+<p>The add-on is capable to send 4 types of notification: notification to user that his booking request has been received, notification to admin that there has been a new booking made, notification to object owner (entry author) that there has been a new booking made and (if the extension is installed) notification to user if the booking status has been changed.</p>   
+<p>All notifications are sent only if they are enabled in the settings. Owner notification is sent if the address is not listed as admin address.</p> 
+<p>Following variables are available in all templates:
+<ul>
+<li><strong>booking_id</strong> - booking order ID</li>
+<li><strong>name</strong> - customer's name</li>
+<li><strong>email</strong> - customer's email</li>
+<li><strong>phone</strong> - customer's phone</li>
+<li><strong>places</strong> - number of places reserved</li>
+<li><strong>status</strong> - booking status</li>
+<li><strong>site_name</strong> - site name</li>
+<li><strong>site_url</strong> - site URL</li>
+<li><strong>entry_id</strong> - entry (booking object) ID</li>
+<li><strong>title</strong> - entry (booking object) title</li>
+<li><strong>url_title</strong> - entry URL title</li>
+<li><strong>channel_name</strong> - booking channel 'techical' name</li>
+<li><strong>channel_title</strong> - channel title</li>
+<li><strong>owner_name</strong> - name of object owner (entry author)</li>
+<li><strong>owner_username</strong> - name of object owner</li>
+<li><strong>owner_email</strong> - email of object owner</li>
+<li><strong>permalink</strong> - permalink to entry (booking object) using entry_id</li>
+<li><strong>title_permalink</strong> - permalink to entry (booking object) using url_title</li>
+<li><strong>date_from format="%Y-%m-%d"</strong> - reserved period start. EE date formatting rules apply.</li>
+<li><strong>date_to format="%Y-%m-%d"</strong> - reserved period end. EE date formatting rules apply.</li>
+</ul>
+</p>
+<p>Additionally, in admin notification template following variable is available:</p>
+<ul>
+<li><strong>booking_cp_link</strong> - link to view booking details in Control Panel</li>
+</ul>
+<p>In 'booking edited' template also available are:</p>
+<ul>
+<li><strong>old_status</strong> - initial booking status</li>
+<li><strong>status</strong> - status of booking after edit has been made</li>
+<li><strong>comment</strong> - editor's comment (when included in message)</li>
+</ul>
+
+	<h2><a name="cp"></a>Control Panel overview</h2>
+
+<p>In the module's Control Panel under 'Bookings' tab you can see the full list of booking requests posted. </p>
+<p>You can narrow the results by performing a search. The reservations can be filtered by:
+<ul>
+<li>channel</li>
+<li>entry title (booking object name)</li>
+<li>customer name (registered users only)</li>
+<li>customer's email address</li>
+<li>booking status</li>
+<li>object owner</li>
+<li>dates</li>
+</ul>
+</p>
+<p>When you click the link on the object name, you are able to see booking details. </p>
+<p>On that page you can change the booking status and also leave a comment.</p>
+<p>If you have rEEservation extension installed, you can also choose to notify the user about the edit you made and optionally include the comment with the message.</p>
+<p>Since version 2.4.2 you have the ability to create booking from Control Panel on behalf of your customers.</p>
+
+	<h2><a name="usage"></a>Usage</h2>
+    
+<p>Available tags are:</p>
+<ul>
+<li><a href="#form">exp:reeservation:form</a> - display booking form</li>
+<li><a href="#check">exp:reeservation:check</a> - check whether the object is booked for the date provided and display booking details</li>
+</ul>   
+
+	<h3><a name="form"></a>exp:reeservation:form</h3>
+
+<code>
+&lt;link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.8/themes/base/jquery-ui.css" type="text/css" /&gt;<br />
+&lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"&gt;&lt;/script&gt;<br />
+&lt;script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.8/jquery-ui.min.js" type="text/javascript"&gt;&lt;/script&gt;<br />
+&lt;script type="text/javascript"&gt;<br />
+$(document).ready(function() {<br />
+ $("#date_from").datepicker({ dateFormat: "yy-mm-dd" }); <br />
+ $("#date_to").datepicker({ dateFormat: "yy-mm-dd" }); <br />
+});<br />
+&lt;/script&gt;<br />
+{exp:channel:entries}<br />
+&lt;h3&gt;{title}&lt;/h3&gt;<br />
+{exp:reeservation:form entry_id="{entry_id}"}<br />
+{if logged_out}<br />
+&lt;p&gt;Name: &lt;input type="text" name="name" /&gt;&lt;/p&gt;<br />
+&lt;p&gt;Email: &lt;input type="text" name="email" /&gt;&lt;/p&gt;<br />
+{/if}<br />
+{if logged_in}<br />
+&lt;p&gt;Name: {logged_in_screen_name}&lt;/p&gt;<br />
+&lt;p&gt;Email: {logged_in_email}&lt;/p&gt;<br />
+{/if}<br />
+&lt;p&gt;Phone: &lt;input type="text" name="phone" /&gt;&lt;/p&gt;<br />
+&lt;p&gt;Other contact details: &lt;textarea name="contact"&gt;&lt;/textarea&gt;&lt;/p&gt;<br />
+&lt;p&gt;Booking dates:&lt;br /&gt;<br />
+from &lt;input type="text" name="date_from" id="date_from" value="{current_time format="%Y-%m-%d"}" /&gt; to &lt;input type="text" name="date_to" id="date_to" /&gt;&lt;/p&gt;<br />
+&lt;p&gt;Leave a comment to your order: &lt;textarea name="comment"&gt;&lt;/textarea&gt;&lt;/p&gt;<br />
+{if captcha}<br />
+&lt;p&gt;CAPTCHA: &lt;input type="text" name="captcha" /&gt;&lt;/p&gt;<br />
+{captcha}<br />
+{/if}<br />
+&lt;p&gt;&lt;input type="submit" value="Proceed" /&gt;&lt;/p&gt;<br />
+{/exp:reeservation:form}<br />
+{/exp:channel:entries}<br />
+</code>
+
+<p>Parameters:<br />
+<ul>
+<li><strong>entry_id</strong> - ID of entry to be booked. Optional, you can use form field instead.</li>
+<li><strong>return</strong> - page to redirect after booking has been made. Optional</li>
+</ul>
+</p>
+
+<p>Variables:
+<ul>
+<li><strong>captcha</strong> - display CAPTCHA image</li>
+</ul>
+</p>
+
+<p>Conditional variables:
+<ul>
+<li><strong>if captcha</strong></li>
+<li><strong>if logged_in</strong></li>
+<li><strong>if logged_out</strong></li>
+</ul>
+</p>
+
+<p>Form fields:
+<ul>
+<li><strong>entry_id</strong> - ID of entry to be booked. Can be set using form entry_id parameter</li>
+<li><strong>places</strong> - optionally provide number of places you want to book (only if multiple booking enabled)</li>
+<li><strong>name</strong> - customer's name. Required if logged out</li>
+<li><strong>email</strong> - customer's email address. Required if logged out</li>
+<li><strong>phone</strong> - customer's phone. Optional.</li>
+<li><strong>contact</strong> - other contact details customer wants to provide</li>
+<li><strong>comment</strong> - customer's comment to be sent together with booking request</li>
+<li><strong>date_from</strong> - the start date of booked period. Required</li>
+<li><strong>date_to</strong> - the end date of booked period. If omited, the booking will be made for 1 day</li>
+</ul>
+</p>
+
+<p>You can specify the dates in European or US format. 2011-12-31 and 12/31/11 are both valid. I recommend using jQuery datepicker calendar to set dates easily.</p>
+
+<p>Alternative date fields.<br />Instead of letting user fill the date in required format, you can ask him to select year, month and day using dropdown selects.</p>
+<p>So instead of date_from and date_to you can make use of following fields:
+<ul>
+<li><strong>date_from_day</strong> - day of month of booking start day. Required</li>
+<li><strong>date_from_month</strong> - booking month (1 to 12). Required</li>
+<li><strong>date_from_year</strong> - booking year. If omited, defaults to current year</li>
+<li><strong>date_to_day</strong> - day of month of booking end day. If omited, booking will be made for 1 day</li>
+<li><strong>date_to_month</strong></li>
+<li><strong>date_to_year</strong></li>
+</ul>
+</p>
+
+
+
+	<h3><a name="display"></a>exp:reeservation:check</h3>
+
+    <p>Use this tag to check object availability on a certain date.</p>
+<code>
+{exp:reeservation:check entry_id="{segment_2}" day="{current_time format='%d'}" month="{current_time format='%m'}"  year="{current_time format='%Y'}"}<br />
+{if no_results}<br />
+		&lt;a href="#booking_form"&gt;{day_number}&lt;/a&gt;<br />
+{/if}<br />
+		&lt;div style="background: red"&gt;&lt;a href="javascript:void(0)" title="{booking_details}Booked on {booking_date format="%Y-%m-%d"}{if booking_admin} by {name}{/if}{/booking_details}"&gt;{day_number}&lt;/a&gt;&lt;/div&gt;<br />
+{/exp:reeservation:check}
+</code>
+    
+
+
+<p>Parameters:
+<ul>
+<li><strong>entry_id</strong> - entry ID for object to check booking. Mandatory.</li>
+<li><strong>day</strong> - day to check. Mandatory.</li>
+<li><strong>month</strong> - month to check. Mandatory.</li>
+<li><strong>year</strong> - year to check. Mandatory.</li>
+<li><strong>status</strong> - status of booking to display. Optional, default to 'open'. You can separate multuple statuses with a pipe |.</li>
+</ul>
+</p>
+<p>You can, alternatively, perform check for a date range. If at least one date within the range is booked, the contents of tag pair is displayed. Otherwise, the contents of {if no_results} is displayed. To check for a date range, use parameters <strong>day_from</strong>, <strong>month_from</strong>, <strong>year_from</strong>, <strong>day_to</strong>, <strong>month_to</strong>, <strong>year_to</strong> instead of day, month and year.</p>
+
+<p>Conditional variables:
+<ul>
+<li><strong>if captcha</strong></li>
+<li><strong>if logged_in</strong></li>
+<li><strong>if booking_admin</strong> - check whether logged in member has access to module control panel</li>
+<li><strong>if no_results</strong> - text to display if no boooking exist for the parameter provided</li>
+</ul>
+</p>
+
+<p>Single variables outside {booking_details} tag pair:
+<ul>
+<li><strong>bookings_limit</strong> - number of bookings allowed per object for the same date</li>
+<li><strong>bookings_count</strong> - actual number of bookings for selected object and date</li>
+<li><strong>available</strong> - number of places available for booking for given date</li>
+<li><strong>entry_id</strong> - ID of booked object</li>
+<li><strong>title</strong> - title of booked object</li>
+<li><strong>url_title</strong> - URL title of booked object</li>
+</ul>
+</p>
+
+
+<p>You can display detailed booking info using <strong>booking_details</strong> tag pair.</p>
+
+<p>Single variables inside {booking_details} tag pair:
+<ul>
+<li><strong>booking_id</strong> - ID of booking record</li>
+<li><strong>member_id</strong> - member ID of customer (if registered, 0 otherwise)</li>
+<li><strong>owner_id</strong> - member ID of object owner</li>
+<li><strong>name</strong> - customer's name</li>
+<li><strong>email</strong> - customer's email</li>
+<li><strong>phone</strong> - customer's phone</li>
+<li><strong>contact</strong> - additional contact info provided</li>
+<li><strong>comment</strong> - comment left with the reservation</li>
+<li><strong>status</strong> - booking status</li>
+<li><strong>moderator_id</strong> - ID of member who did last edit of booking</li>
+<li><strong>moderation_comment</strong> - comment admin/moderator has left on booking</li>
+<li><strong>date_from format="%Y-%m-%d"</strong> - reserved period start. EE date formatting rules apply.</li>
+<li><strong>date_to format="%Y-%m-%d"</strong> - reserved period end. EE date formatting rules apply.</li>
+<li><strong>booking_date format="%Y-%m-%d"</strong> - date when booking has been submitted. EE date formatting rules apply.</li>
+<li><strong>moderation_date format="%Y-%m-%d"</strong> - date when booking was last reviewed by admin. EE date formatting rules apply.</li>
+</ul>
+</p>
+
+	<h3><a name="multicheck"></a>exp:reeservation:check_multiple</h3>
+
+    <p>Use this tag to check availability of several objects on a certain date.</p>
+<code>
+{exp:reeservation:check_multiple entry_id="{segment_2}" day="{current_time format='%d'}" month="{current_time format='%m'}"  year="{current_time format='%Y'}"}<br />
+{if no_results}<br />
+		&lt;a href="#booking_form"&gt;{day_number}&lt;/a&gt;<br />
+{/if}<br />
+{entries}<br />
+		&lt;p&gt;{title} has {bookings_count} places booked ({available} available)&lt;/p&gt;<br />
+{/entries}        
+{/exp:reeservation:check_multiple}
+</code>
+    
+
+
+<p>Parameters:
+<ul>
+<li><strong>entry_id</strong> - entry ID for object to check booking. You can specify multiple entry IDs by separating them with a pipe (ex. entry_id="2|12|82").</li>
+<li><strong>day</strong> - day to check. Mandatory.</li>
+<li><strong>month</strong> - month to check. Mandatory.</li>
+<li><strong>year</strong> - year to check. Mandatory.</li>
+<li><strong>status</strong> - status of booking to display. Optional, default to 'open'. You can separate multuple statuses with a pipe |.</li>
+</ul>
+</p>
+<p>You can, alternatively, perform check for a date range. If at least one date within the range is booked, the contents of tag pair is displayed. Otherwise, the contents of {if no_results} is displayed. To check for a date range, use parameters <strong>day_from</strong>, <strong>month_from</strong>, <strong>year_from</strong>, <strong>day_to</strong>, <strong>month_to</strong>, <strong>year_to</strong> instead of day, month and year.</p>
+
+<p>Conditional variables:
+<ul>
+<li><strong>if captcha</strong></li>
+<li><strong>if logged_in</strong></li>
+<li><strong>if booking_admin</strong> - check whether logged in member has access to module control panel</li>
+<li><strong>if no_results</strong> - text to display if no boooking exist for the parameter provided</li>
+</ul>
+</p>
+
+<p>You can display availability info on each object using <strong>entries</strong> tag pair.</p>
+
+<p>Single variables inside {entries} tag pair:
+<ul>
+<li><strong>bookings_limit</strong> - number of bookings allowed per object for the same date</li>
+<li><strong>bookings_count</strong> - actual number of bookings for selected object and date</li>
+<li><strong>available</strong> - number of places available for booking for given date</li>
+<li><strong>entry_id</strong> - ID of booked object</li>
+<li><strong>title</strong> - title of booked object</li>
+<li><strong>url_title</strong> - URL title of booked object</li>
+</ul>
+</p>
+
+<p>Outside of {entries} tag pair you have:
+<ul>
+<li><strong>total_booked</strong> - total number of bookings for all searched objects for given date(s)</li>
+<li><strong>total_available</strong> - total number of places available for booking in all searched objects for given date</li>
+</ul>
+</p>
+
+	<h3><a name="calendar"></a>Simple calendar</h3>
+    
+     <p>Here's an example how to buld booking/availability using Simple Calendar plugin which is bundled with rEEservation.</p>
+     
+<code>
+{exp:simple_calendar entry_id="{segment_2}" start_day="sunday" month="{current_time format='%n'}" year="{current_time format='%Y'}"}<br />
+&lt;h4&gt;{current_time format="%F %Y"}&lt;/h4&gt;<br />
+&lt;table class="calendar" border="0" cellpadding="6" cellspacing="1" width="300px"&gt;<br />
+&lt;tr&gt;<br />
+{calendar_heading}<br />
+&lt;th title="{lang:weekday_long}"&gt;{lang:weekday_abrev}&lt;/th&gt;<br />
+{/calendar_heading}<br />
+&lt;/tr&gt;<br />
+{calendar_rows}<br />
+{row_start}&lt;tr&gt;{/row_start}<br />
+&lt;td{if today} class="today"{/if}&gt;<br />
+{reeservation_check}<br />
+{if no_results}<br />
+		{day_number}<br />
+{/if}<br />
+		&lt;a style="color: red" href="javascript:void(0)" <br />
+        title="{booking_details}Booked on {booking_date format="%Y-%m-%d"}{if booking_admin} by {name}{/if}{/booking_details}"&gt;{day_number}&lt;/a&gt;<br />
+{/reeservation_check}      <br />
+&lt;/td&gt;<br />
+{if empty}&lt;td&gt;&nbsp;&lt;/td&gt;{/if}<br />
+{row_end}&lt;/tr&gt;{/row_end}<br />
+{/calendar_rows}<br />
+&lt;/table&gt;<br />
+{/exp:simple_calendar} 
+</code>
+<p><strong>{reeservation_check}</strong> tag pair is basically calling exp:reeservation:check function, so all its variables and conditionals are available.</p>
+
+
+
+
+<h2><a name="list"></a>List and edit bookings</h2>
+    <p>You can list all bookings that match certain parameter, such as entry author or customer using {exp:reeservation:listing} tag. </p>
+    <p>Accepted parameters are:</p>
+<ul>
+<li><strong>entry_id</strong> - entry ID for object</li>
+<li><strong>owner_id</strong> - ID of entry author/object owner</li>
+<li><strong>member_id</strong> - customer ID</li>
+<li><strong>booking_id</strong> - you can limit your display to just particular boking. You can also display form to edit it for object owner (see below)</li>
+<li><strong>status</strong> - status of booking to display. Optional, default to 'open'. You can separate multuple statuses with a pipe |.</li>
+</ul>
+
+<p>Ouput variables:
+<ul>
+<li><strong>booking_id</strong> - ID of booking record</li>
+<li><strong>entry_id</strong> - ID of booked object</li>
+<li><strong>title</strong> - title of booked object</li>
+<li><strong>url_title</strong> - URL title of booked object</li>
+<li><strong>member_id</strong> - member ID of customer (if registered, 0 otherwise)</li>
+<li><strong>owner_id</strong> - member ID of object owner</li>
+<li><strong>name</strong> - customer's name</li>
+<li><strong>email</strong> - customer's email</li>
+<li><strong>phone</strong> - customer's phone</li>
+<li><strong>contact</strong> - additional contact info provided</li>
+<li><strong>comment</strong> - comment left with the reservation</li>
+<li><strong>status</strong> - booking status</li>
+<li><strong>moderator_id</strong> - ID of member who did last edit of booking</li>
+<li><strong>moderation_comment</strong> - comment admin/moderator has left on booking</li>
+<li><strong>date_from format="%Y-%m-%d"</strong> - reserved period start. EE date formatting rules apply.</li>
+<li><strong>date_to format="%Y-%m-%d"</strong> - reserved period end. EE date formatting rules apply.</li>
+<li><strong>booking_date format="%Y-%m-%d"</strong> - date when booking has been submitted. EE date formatting rules apply.</li>
+<li><strong>moderation_date format="%Y-%m-%d"</strong> - date when booking was last reviewed by admin. EE date formatting rules apply.</li>
+</ul>
+</p>
+<code>
+{exp:reeservation:listing owner_id="{segment_2}"}<br />
+&lt;p&gt;&lt;a href="{path=bookings/edit/{booking_id}}"&gt;{title}, booked from {date_from format="%Y-%m-%d"} to {date_to format="%Y-%m-%d"}&lt;/a&gt;&lt;/p&gt;<br />
+{/exp:reeservation:listing}
+</code>
+
+<p>To display <strong>booking edit form</strong>, place a call to exp:reeservation:listing with 2 parameters <strong>form="true"</strong> and <strong>booking_id</strong>.</p>
+<p>The editing is available only for owner of booked object (and admins of course).</p>
+<p>Following fields can be used in the form:</p>
+
+<p>Parameters:
+<ul>
+<li><strong>status</strong> - desired booking status. Possible values: 'open', 'pending', 'rejected', 'cancelled' (all lowercase)</li>
+<li><strong>moderator_comment</strong> - optional comment</li>
+<li><strong>notify_user</strong> - set to 'y' to notify customer about status change</li>
+<li><strong>include_comment</strong> - set to 'y' to include comment with notification email</li>
+<li><strong>return</strong> - page to redirect after editing has been made</li>
+</ul>
+</p>
+
+
+	<h2><a name="paypal"></a>PayPal integration</h2>
+    <p class="important">Simple Commerce module is required for this feature to work, however nothing will be recorded in Simple Commerce module, so you don't need to define any items in there - just PayPal settings</p>
+    <p>You can enable your customers to pay for the bookings made instantly using PayPal. To do this, you'll need to have Simple Commerce module set up and rEEservation PayPal extension installed and set up.</p>
+    <p>Install the rEEservation PayPal extension, go to it's settings and make sure all fields are filled in. Price field should contain the cost of 1-day reservation. The total will be calculated based on the field value and number of days.</p>
+    <p>If you have several channels for booking, consider using <a href="http://devot-ee.com/add-ons/drifter/"></a>Drifter</a> extension for price field.</p>
+    <p>If you are using PayPal Sandbox, set <code>var $debug = TRUE</code> in both mod.simple_commerce.php and ext.reeservation_paypal.php</p>
+    <p>Make sure your default booking status is 'Pending'.</p>
+    <p>Now after the booking request has been received, the users will be instantly redirected to PayPal page. After they complete the payment, status of their order is set to Open/approved and notification email is sent. The user will be redirected to page you specify in extension settings or in 'return' parameter of booking form.</p>
+    <p>If you want to send notifications to customer/property owner/admin address, you should enable that in settings of 'rEEservation' extension.</p>
+
+</div>
+
+
+<p class="center"><a href="#top">Top of page</a></p>
+
+<!-- {user_guide_comments} -->
+
+<div id="footer">
+  <address>Copyright &copy; 2010 Yuriy Salimovskiy <a href="http://www.intoeetive.com/">intoEEtive.com</a></address>
+</div>
+
+</body>
+</html>
