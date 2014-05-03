@@ -886,6 +886,13 @@ class Reeservation_mcp {
         {
             $errors[] = $this->EE->lang->line('date_start_greater_date_end');
         }
+        
+        //check whether the dates requested are within allowed period of time
+        if ((isset($this->settings['allowed_start_date']) && $this->settings['allowed_start_date']!=0 && $this->settings['allowed_start_date']!='' && $date_from < $this->settings['allowed_start_date'])
+            || (isset($this->settings['allowed_end_date']) && $this->settings['allowed_end_date']!=0 && $this->settings['allowed_end_date']!='' && $date_to > $this->settings['allowed_end_date']))
+        {
+            $errors[] = $this->EE->lang->line('dates_out_of_allowed_range');
+        }
 
         
         if (is_array($_POST['entry_id']))
@@ -1019,7 +1026,14 @@ class Reeservation_mcp {
 	        {
 	            $bookings_limit = intval($this->settings['bookings_limit']);
 	        }
-	        if ($bookings_limit<=0) $bookings_limit = 1;
+	        if ($bookings_limit<0) 
+			{
+				$bookings_limit = 1;
+			}
+			else if ($bookings_limit==0) 
+			{
+				$bookings_limit = 999999;
+			}
 	        
 	                                
 	        if ($this->settings['allow_multiple_bookings']=='y')
@@ -1293,6 +1307,20 @@ class Reeservation_mcp {
         }
         
         if (!isset($this->settings['allow_changeover_booking'])) $this->settings['allow_changeover_booking'] = 'n';
+        
+        $date_fmt = ($this->EE->session->userdata('time_format') != '') ? $this->EE->session->userdata('time_format') : $this->EE->config->item('time_format');
+        if ($date_fmt == 'us')
+		{
+			//$date_format = '%m/%d/%y %h:%i %a';
+            $date_format = '%m/%d/%y';
+            $date_format_picker = 'mm/dd/y';
+		}
+		else
+		{
+			//$date_format = '%Y-%m-%d %H:%i';
+            $date_format = '%Y-%m-%d';
+            $date_format_picker = 'yy-mm-dd';
+		}
  
         $vars['settings'] = array(	
             'default_status'	=> form_dropdown('default_status', $statuses, $this->settings['default_status']),
@@ -1305,6 +1333,8 @@ class Reeservation_mcp {
             //'booking_entries'	=> form_multiselect('booking_entries[]', $entries, $entries_selected),
             'lock_timeout'	=> form_input('lock_timeout', $this->settings['lock_timeout']),
             'allow_changeover_booking'	=> form_dropdown('allow_changeover_booking', $yesno, $this->settings['allow_changeover_booking']),
+            'allowed_start_date'	=> form_input('allowed_start_date', (isset($this->settings['allowed_start_date']) && $this->settings['allowed_start_date']!='')?$this->format_date($date_format, $this->settings['allowed_start_date']):''),
+            'allowed_end_date'	=> form_input('allowed_end_date', (isset($this->settings['allowed_end_date']) && $this->settings['allowed_end_date']!='')?$this->format_date($date_format, $this->settings['allowed_end_date']):''),
             'standard_checkin_time'	=> form_input('standard_checkin_time', $this->settings['standard_checkin_time']),
             //'use_time'	=> form_dropdown('use_time', $yesno, $this->settings['use_time']),
             'use_captcha'	=> form_dropdown('use_captcha', $yesno, $this->settings['use_captcha']),
@@ -1323,6 +1353,13 @@ class Reeservation_mcp {
         {
         	$this->EE->cp->set_variable('cp_page_title', lang('reeservation_module_name'));
         }
+        
+        
+        
+        $this->EE->cp->add_js_script('ui', 'datepicker'); 
+        $this->EE->javascript->output(' $("input[name=allowed_start_date]").datepicker({ dateFormat: "'.$date_format_picker.'" }); '); 
+        $this->EE->javascript->output(' $("input[name=allowed_end_date]").datepicker({ dateFormat: "'.$date_format_picker.'" }); '); 
+        $this->EE->javascript->compile(); 
         
     	return $this->EE->load->view('settings', $vars, TRUE);
 	
@@ -1350,6 +1387,66 @@ class Reeservation_mcp {
         $settings['send_owner_notification'] = (isset($_POST['send_owner_notification']))?$this->EE->security->xss_clean($_POST['send_owner_notification']):'y';
         $settings['send_admin_notification'] = (isset($_POST['send_admin_notification']))?$this->EE->security->xss_clean($_POST['send_admin_notification']):'y';
         
+        $settings['allowed_start_date'] = '';
+        $settings['allowed_end_date'] = '';
+        $standard_checkin_time = strtoupper($this->settings['standard_checkin_time']);
+        if (strpos($standard_checkin_time, "AM")===false && strpos($standard_checkin_time, "PM")===false)
+        {
+            $standard_checkin_time_a = explode(":", $standard_checkin_time);
+            $h = $standard_checkin_time_a[0];
+            $i = $standard_checkin_time_a[1];
+            $ampm = "AM";
+            if ($h>12) 
+            {
+                $h=$h-12;
+                $ampm = "PM";
+            }
+            $standard_checkin_time = str_pad($h, 2, "0", STR_PAD_LEFT).":".str_pad($i, 2, "0", STR_PAD_LEFT)." ".$ampm;
+        }
+        
+        $standard_checkin_time = str_replace('00:00 ', '12:00 ', $standard_checkin_time);
+        if ($this->EE->input->post('allowed_start_date')!='')
+        {
+            if (strpos($this->EE->input->post('allowed_start_date'), "/")!==false)
+            {
+                //us date (%m/%d/%y)
+                $date_parts = explode("/", $this->EE->input->get_post('allowed_start_date'));
+                $m = $date_parts[0];
+                $d = $date_parts[1];
+                $y = "20".$date_parts[2];
+            }
+            elseif (strpos($this->EE->input->get_post('allowed_start_date'), "-")!==false)
+            {
+                //european date (%Y-%m-%d)
+                $date_parts = explode("-", $this->EE->input->get_post('allowed_start_date'));
+                $m = $date_parts[1];
+                $d = $date_parts[2];
+                $y = $date_parts[0];
+            }
+            $date_human = str_pad($y, 4, "20", STR_PAD_LEFT)."-".str_pad($m, 2, "0", STR_PAD_LEFT)."-".str_pad($d, 2, "0", STR_PAD_LEFT)." ".$standard_checkin_time;
+            $settings['allowed_start_date'] = $this->EE->localize->string_to_timestamp($date_human);
+        }
+        if ($this->EE->input->post('allowed_end_date')!='')
+        {
+            if (strpos($this->EE->input->post('allowed_end_date'), "/")!==false)
+            {
+                //us date (%m/%d/%y)
+                $date_parts = explode("/", $this->EE->input->get_post('allowed_end_date'));
+                $m = $date_parts[0];
+                $d = $date_parts[1];
+                $y = "20".$date_parts[2];
+            }
+            elseif (strpos($this->EE->input->get_post('allowed_end_date'), "-")!==false)
+            {
+                //european date (%Y-%m-%d)
+                $date_parts = explode("-", $this->EE->input->get_post('allowed_end_date'));
+                $m = $date_parts[1];
+                $d = $date_parts[2];
+                $y = $date_parts[0];
+            }
+            $date_human = str_pad($y, 4, "20", STR_PAD_LEFT)."-".str_pad($m, 2, "0", STR_PAD_LEFT)."-".str_pad($d, 2, "0", STR_PAD_LEFT)." ".$standard_checkin_time;
+            $settings['allowed_end_date'] = $this->EE->localize->string_to_timestamp($date_human);
+        }
  
         $this->EE->db->where('module_name', 'Reeservation');
         $this->EE->db->update('modules', array('settings' => serialize($settings)));
@@ -1445,7 +1542,7 @@ class Reeservation_mcp {
         $this->EE->functions->redirect(BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=reeservation'.AMP.'method=email_templates');
     }
     
-    function format_date($one=false, $two=false, $three=false)
+    function format_date($one=false, $two=false, $three=true)
     {
     	if ($this->EE->config->item('app_version')>=260)
     	{

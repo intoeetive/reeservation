@@ -398,6 +398,16 @@ Status of your booking is now {status}
 "allow_changeover_booking" =>
 "Allow bookings overlap on changeover days?",
 
+"allowed_start_date" =>
+"Earliest allowed booking date",
+
+"allowed_end_date" =>
+"Latest allowed booking date",
+
+
+"dates_out_of_allowed_range" =>
+"The requested dates cannot be booked",
+
 /* END */
 ''=>''
 );

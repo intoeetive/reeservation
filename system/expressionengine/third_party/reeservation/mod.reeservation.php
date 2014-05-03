@@ -302,6 +302,13 @@ class Reeservation {
             $errors[] = $this->EE->lang->line('date_start_greater_date_end');
         }
         
+        //check whether the dates requested are within allowed period of time
+        if ((isset($this->settings['allowed_start_date']) && $this->settings['allowed_start_date']!=0 && $this->settings['allowed_start_date']!='' && $date_from < $this->settings['allowed_start_date'])
+            || (isset($this->settings['allowed_end_date']) && $this->settings['allowed_end_date']!=0 && $this->settings['allowed_end_date']!='' && $date_to > $this->settings['allowed_end_date']))
+        {
+            $errors[] = $this->EE->lang->line('dates_out_of_allowed_range');
+        }
+        
         //valid entry_id
         if (is_array($_POST['entry_id']))
         {
@@ -364,19 +371,24 @@ class Reeservation {
 	            }
 	        } 
 	        
-	                   
         
 	        if ($this->settings['limit_field']!='')
 	        {
-	            $bookings_limit = (intval($this->settings['bookings_limit'])<intval($query->row("$limit_field")))?intval($this->settings['bookings_limit']):intval($query->row("$limit_field"));
+	            //$bookings_limit = (intval($this->settings['bookings_limit'])<intval($query->row("$limit_field")))?intval($this->settings['bookings_limit']):intval($query->row("$limit_field"));
+                $bookings_limit = intval($query->row("$limit_field"));
 	        }
 	        else
 	        {
 	            $bookings_limit = intval($this->settings['bookings_limit']);
 	        }
-	        if ($bookings_limit<=0) $bookings_limit = 1;
-	        
-	        
+	        if ($bookings_limit<0) 
+			{
+				$bookings_limit = 1;
+			}
+			else if ($bookings_limit==0) 
+			{
+				$bookings_limit = 999999;
+			}
 	        
 	        //show errors
 	        if (!empty($errors))
@@ -870,6 +882,31 @@ class Reeservation {
             $date_to = $this->EE->localize->string_to_timestamp($date_to_human);
         }
         
+        
+        if ($this->settings['limit_field']!='')
+        {
+            $limit_field = 'field_id_'.$this->settings['limit_field'];
+            $q = $this->EE->db->query("SELECT title, url_title, $limit_field FROM exp_channel_titles AS t, exp_channel_data AS d WHERE t.entry_id=d.entry_id AND t.entry_id=".$entry_id);
+            $bookings_limit = (intval($this->settings['bookings_limit'])<intval($q->row("$limit_field")))?intval($this->settings['bookings_limit']):intval($q->row("$limit_field"));
+        }
+        else
+        {
+            $q = $this->EE->db->query("SELECT title, url_title FROM exp_channel_titles AS t WHERE t.entry_id=".$entry_id);
+            $bookings_limit = intval($this->settings['bookings_limit']);
+        }
+        if ($bookings_limit<=0) $bookings_limit = 1;
+        
+        
+        //check whether the dates requested are within allowed period of time
+        if ((isset($this->settings['allowed_start_date']) && $this->settings['allowed_start_date']!=0 && $this->settings['allowed_start_date']!='' && $date < $this->settings['allowed_start_date'])
+            || (isset($this->settings['allowed_end_date']) && $this->settings['allowed_end_date']!=0 && $this->settings['allowed_end_date']!='' && ((isset($date_to) && $date_to > $this->settings['allowed_end_date'])) || ($date > $this->settings['allowed_end_date']))
+            )
+        {
+             $tagdata = $this->EE->TMPL->swap_var_single('available', 0, $tagdata);
+        
+            return $tagdata;
+        }
+        
         //echo $date_human." ".$date." <br />";
         //$this->EE->db->_compile_select(); 
         $this->EE->db->select('*');
@@ -888,18 +925,7 @@ class Reeservation {
         $query = $this->EE->db->get();
         
         
-        if ($this->settings['limit_field']!='')
-        {
-            $limit_field = 'field_id_'.$this->settings['limit_field'];
-            $q = $this->EE->db->query("SELECT title, url_title, $limit_field FROM exp_channel_titles AS t, exp_channel_data AS d WHERE t.entry_id=d.entry_id AND t.entry_id=".$entry_id);
-            $bookings_limit = (intval($this->settings['bookings_limit'])<intval($q->row("$limit_field")))?intval($this->settings['bookings_limit']):intval($q->row("$limit_field"));
-        }
-        else
-        {
-            $q = $this->EE->db->query("SELECT title, url_title FROM exp_channel_titles AS t WHERE t.entry_id=".$entry_id);
-            $bookings_limit = intval($this->settings['bookings_limit']);
-        }
-        if ($bookings_limit<=0) $bookings_limit = 1;
+        
         
         $tagdata = ($tagdata=='') ? $this->EE->TMPL->tagdata : $tagdata;
         
@@ -1240,7 +1266,7 @@ class Reeservation {
     
     /* list booking by parameters */
     function listing()
-    {
+    { 
         
         $valid_params = array('owner_id', 'member_id', 'entry_id', 'booking_id');
         $params = array();
@@ -1509,7 +1535,7 @@ class Reeservation {
     }
     
     
-    function format_date($one='', $two='', $three=false)
+    function format_date($one='', $two='', $three=true)
     {
     	if ($this->EE->config->item('app_version')>=260)
     	{

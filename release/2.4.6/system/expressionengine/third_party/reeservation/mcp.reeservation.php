@@ -178,7 +178,7 @@ class Reeservation_mcp {
             }
             $date_from_human = str_pad($y, 4, "20", STR_PAD_LEFT)."-".str_pad($m, 2, "0", STR_PAD_LEFT)."-".str_pad($d, 2, "0", STR_PAD_LEFT)." ".$standard_checkin_time;
 
-            $date_from = $this->EE->localize->convert_human_date_to_gmt($date_from_human);
+            $date_from = $this->_string_to_timestamp($date_from_human);
         }
         else
         {
@@ -206,7 +206,7 @@ class Reeservation_mcp {
             }
             $date_to_human = str_pad($y, 4, "20", STR_PAD_LEFT)."-".str_pad($m, 2, "0", STR_PAD_LEFT)."-".str_pad($d, 2, "0", STR_PAD_LEFT)." ".$standard_checkin_time;
 
-            $date_to = $this->EE->localize->convert_human_date_to_gmt($date_to_human);
+            $date_to = $this->_string_to_timestamp($date_to_human);
         }
         else
         {
@@ -835,7 +835,7 @@ class Reeservation_mcp {
         
         $date_from_human = str_pad($y, 4, "20", STR_PAD_LEFT)."-".str_pad($m, 2, "0", STR_PAD_LEFT)."-".str_pad($d, 2, "0", STR_PAD_LEFT)." ".$standard_checkin_time;
 
-        $date_from = $this->EE->localize->convert_human_date_to_gmt($date_from_human);
+        $date_from = $this->_string_to_timestamp($date_from_human);
         /*if ($this->settings['use_time']=='n')
         {
             $date_from_human = gmdate("Y-m-d", $date_from);
@@ -900,7 +900,7 @@ class Reeservation_mcp {
             }
             $date_to_human = str_pad($y, 4, "20", STR_PAD_LEFT)."-".str_pad($m, 2, "0", STR_PAD_LEFT)."-".str_pad($d, 2, "0", STR_PAD_LEFT)." ".$standard_checkin_time;
 
-            $date_to = $this->EE->localize->convert_human_date_to_gmt($date_to_human);
+            $date_to = $this->_string_to_timestamp($date_to_human);
         }
         
         //show errors
@@ -1333,6 +1333,19 @@ class Reeservation_mcp {
         
         $this->EE->functions->redirect(BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=reeservation'.AMP.'method=email_templates');
     }
+    
+    
+    function _string_to_timestamp($human_string, $localized = TRUE)
+    {
+        if ($this->EE->config->item('app_version')<260)
+        {
+            return $this->EE->localize->convert_human_date_to_gmt($human_string, $localized);
+        }
+        else
+        {
+            return $this->EE->localize->string_to_timestamp($human_string, $localized);
+        }
+    }    
 
 
 }

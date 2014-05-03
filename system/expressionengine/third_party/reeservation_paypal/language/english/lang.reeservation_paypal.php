@@ -33,6 +33,12 @@ $lang = array(
 "paypal_received"  =>
 "PayPal payment received",
 
+"extra_fee" =>
+"Extra fee",
+
+"required_comment_field_val" =>
+"Required comment field value (if set, user will be redirected to PayPal only if comment field value matches)",
+
 /* END */
 ''=>''
 );

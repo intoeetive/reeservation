@@ -26,7 +26,7 @@ if ( ! defined('BASEPATH'))
 class Reeservation_paypal_ext {
 
 	var $name	     	= 'rEEservation PayPal';
-	var $version 		= '0.4';
+	var $version 		= '0.5';
 	var $description	= 'PayPal integration for rEEservation module. Requires Simple Commerce';
 	var $settings_exist	= 'y';
 	var $docs_url		= 'http://www.intoeetive.com/docs/reeservation.html';
@@ -156,7 +156,9 @@ class Reeservation_paypal_ext {
         $settings['success_url']    = "/";
         $settings['cancel_url']    = "/";
         $settings['currency']    = "USD";
+        $settings['extra_fee']    = "0";
         $settings['price_field']    = array('s', $fields);
+        $settings['required_comment_field_val']    = "";
         
         return $settings;
     }
@@ -165,6 +167,11 @@ class Reeservation_paypal_ext {
     function send_to_paypal($booking_id, $data)
     {
         if ($this->settings['price_field']=='') return false;
+        
+        if (($this->settings['required_comment_field_val']!='') && ($data['comment']!=$this->settings['required_comment_field_val'])) 
+        {
+            return false;
+        }
         
         if ( ! class_exists('Simple_commerce'))
 		{
@@ -184,7 +191,15 @@ class Reeservation_paypal_ext {
         $days_str = ($days==1)?$this->EE->lang->line('day'):$this->EE->lang->line('days');
         //$places_str = ($data['places']>1)? " (".$data['places']." ".$this->EE->lang->line('places').")":"";
         $title = $this->EE->lang->line('reservation_of').' '.$q->row('title').' '.$this->EE->lang->line('for').' '.$days.' '.$days_str;
-        $amount = $price * $days;
+        if (isset($this->settings['extra_fee']) && $this->settings['extra_fee']!='')
+        {
+            $extra_fee = $this->settings['extra_fee'];
+        }
+        else
+        {
+            $extra_fee = 0;
+        }
+        $amount = $price * $days + $extra_fee;
         if (substr($this->settings['success_url'], 0, 4) !== 'http')
 		{
 			$success = $this->EE->functions->create_url($this->settings['success_url']);

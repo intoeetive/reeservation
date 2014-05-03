@@ -291,7 +291,7 @@ class Reeservation {
         
         $date_from_human = str_pad($y, 4, "20", STR_PAD_LEFT)."-".str_pad($m, 2, "0", STR_PAD_LEFT)."-".str_pad($d, 2, "0", STR_PAD_LEFT)." ".$standard_checkin_time;
 
-        $date_from = $this->EE->localize->convert_human_date_to_gmt($date_from_human);
+        $date_from = $this->_string_to_timestamp($date_from_human);
         /*if ($this->settings['use_time']=='n')
         {
             $date_from_human = gmdate("Y-m-d", $date_from);
@@ -356,7 +356,7 @@ class Reeservation {
             }
             $date_to_human = str_pad($y, 4, "20", STR_PAD_LEFT)."-".str_pad($m, 2, "0", STR_PAD_LEFT)."-".str_pad($d, 2, "0", STR_PAD_LEFT)." ".$standard_checkin_time;
 
-            $date_to = $this->EE->localize->convert_human_date_to_gmt($date_to_human);
+            $date_to = $this->_string_to_timestamp($date_to_human);
         }
         
         //show errors
@@ -790,7 +790,7 @@ class Reeservation {
         
         $date_human = str_pad($year, 4, "20", STR_PAD_LEFT)."-".str_pad($month, 2, "0", STR_PAD_LEFT)."-".str_pad($day, 2, "0", STR_PAD_LEFT)." ".$standard_checkin_time;
 
-        $date = $this->EE->localize->convert_human_date_to_gmt($date_human);
+        $date = $this->_string_to_timestamp($date_human);
         
         if ($this->EE->TMPL->fetch_param('day_to')!='')
         {
@@ -799,7 +799,7 @@ class Reeservation {
             $year_to = ($this->EE->TMPL->fetch_param('year_to')!='')?$this->EE->TMPL->fetch_param('year_to'):$year;
             $date_to_human = str_pad($year_to, 4, "20", STR_PAD_LEFT)."-".str_pad($month_to, 2, "0", STR_PAD_LEFT)."-".str_pad($day_to, 2, "0", STR_PAD_LEFT)." ".$standard_checkin_time;
     
-            $date_to = $this->EE->localize->convert_human_date_to_gmt($date_to_human);
+            $date_to = $this->_string_to_timestamp($date_to_human);
         }
         
         //echo $date_human." ".$date." <br />";
@@ -1231,6 +1231,20 @@ class Reeservation {
         
         return $this->EE->functions->redirect($_POST['RET']);
     }
+    
+    
+    function _string_to_timestamp($human_string, $localized = TRUE)
+    {
+        if ($this->EE->config->item('app_version')<260)
+        {
+            return $this->EE->localize->convert_human_date_to_gmt($human_string, $localized);
+        }
+        else
+        {
+            return $this->EE->localize->string_to_timestamp($human_string, $localized);
+        }
+    }        
+    
 
 }
 /* END */
