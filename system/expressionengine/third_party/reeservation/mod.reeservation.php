@@ -397,7 +397,7 @@ class Reeservation {
 	        }
 	        
 	        //anything booked already?
-	        $sql = "SELECT booking_id, date_from, date_to, places FROM exp_reeservation WHERE entry_id='".$this->EE->db->escape_str($entry_id)."' AND ( (date_from>".($date_from-3800)." AND date_from<".($date_to+3800).") OR (date_to>".($date_from-3800)." AND date_to<".($date_to+3800).") )  AND status='open'";
+	        $sql = "SELECT booking_id, date_from, date_to, places FROM exp_reeservation WHERE entry_id='".$this->EE->db->escape_str($entry_id)."' AND ( (date_from>".($date_from-3800)." AND date_from<".($date_to+3800).") OR (date_to>".($date_from-3800)." AND date_to<".($date_to+3800).") OR (date_to>".($date_to-3800)." AND date_from<".($date_from+3800).") )  AND status='open'";
 	        //you might wonder where 3800 comes from? that's 1 hour plus 200 seconds added because of possible time calculation fault
 	        $query = $this->EE->db->query($sql);
 	        
@@ -899,7 +899,7 @@ class Reeservation {
         
         //check whether the dates requested are within allowed period of time
         if ((isset($this->settings['allowed_start_date']) && $this->settings['allowed_start_date']!=0 && $this->settings['allowed_start_date']!='' && $date < $this->settings['allowed_start_date'])
-            || (isset($this->settings['allowed_end_date']) && $this->settings['allowed_end_date']!=0 && $this->settings['allowed_end_date']!='' && ((isset($date_to) && $date_to > $this->settings['allowed_end_date'])) || ($date > $this->settings['allowed_end_date']))
+            || (isset($this->settings['allowed_end_date']) && $this->settings['allowed_end_date']!=0 && $this->settings['allowed_end_date']!='' && ((isset($date_to) && $date_to > $this->settings['allowed_end_date']) || ($date > $this->settings['allowed_end_date'])) )
             )
         {
              $tagdata = $this->EE->TMPL->swap_var_single('available', 0, $tagdata);
@@ -1537,7 +1537,7 @@ class Reeservation {
     
     function format_date($one='', $two='', $three=true)
     {
-    	if ($this->EE->config->item('app_version')>=260)
+    	if (version_compare(APP_VER, '2.6.0', '>='))
     	{
 			return $this->EE->localize->format_date($one, $two, $three);
 		}

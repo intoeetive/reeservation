@@ -188,7 +188,7 @@ class Simple_calendar {
                 $row = $this->EE->TMPL->swap_var_single('month', $month, $row);
                 $row = $this->EE->TMPL->swap_var_single('year', $year, $row);
                 
-                $gmt = ($this->EE->config->item('app_version')<260)?$this->EE->localize->convert_human_date_to_gmt($year."-".$month."-".$list_day." 10:10 AM"):$this->EE->localize->string_to_timestamp($year."-".$month."-".$list_day." 10:10 AM");
+                $gmt = (version_compare(APP_VER, '2.6.0', '<'))?$this->EE->localize->convert_human_date_to_gmt($year."-".$month."-".$list_day." 10:10 AM"):$this->EE->localize->string_to_timestamp($year."-".$month."-".$list_day." 10:10 AM");
                 $day_of_week = gmdate("N", $gmt);
                 
                 $row = $this->EE->TMPL->swap_var_single('day_of_week', $day_of_week, $row);

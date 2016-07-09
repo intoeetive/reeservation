@@ -1,0 +1,3342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="https://trans.merchantsolution.com/Web/services/TransactionService" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="https://trans.merchantsolution.com/Web/services/TransactionService" xmlns:intf="https://trans.merchantsolution.com/Web/services/TransactionService" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="urn:MPTransProcess" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="urn:MPTransProcess" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="address">
+    <sequence>
+     <element name="addr1" nillable="true" type="xsd:string"/>
+     <element name="addr2" nillable="true" type="xsd:string"/>
+     <element name="addr3" nillable="true" type="xsd:string"/>
+     <element name="city" nillable="true" type="xsd:string"/>
+     <element name="state" nillable="true" type="xsd:string"/>
+     <element name="zip" nillable="true" type="xsd:string"/>
+     <element name="country" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="customEmail">
+    <sequence>
+     <element name="emailto" nillable="true" type="xsd:string"/>
+     <element name="emailfrom" nillable="true" type="xsd:string"/>
+     <element name="emailsubject" nillable="true" type="xsd:string"/>
+     <element name="emailtext" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="Recur">
+    <sequence>
+     <element name="create" type="xsd:int"/>
+     <element name="billingcycle" type="xsd:int"/>
+     <element name="billingmax" type="xsd:int"/>
+     <element name="start" type="xsd:int"/>
+     <element name="amount" type="xsd:float"/>
+    </sequence>
+   </complexType>
+   <complexType name="HotelLodging">
+    <sequence>
+     <element name="chargetypeamx" nillable="true" type="xsd:string"/>
+     <element name="roomrateamt" nillable="true" type="xsd:string"/>
+     <element name="checkindate" nillable="true" type="xsd:string"/>
+     <element name="checkoutdate" nillable="true" type="xsd:string"/>
+     <element name="purchaseid" nillable="true" type="xsd:string"/>
+     <element name="pproperty" nillable="true" type="xsd:string"/>
+     <element name="extracharges" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="AutoRental">
+    <sequence>
+     <element name="rentalagreementnum" nillable="true" type="xsd:string"/>
+     <element name="rentalrate" nillable="true" type="xsd:string"/>
+     <element name="noshoworprogind" nillable="true" type="xsd:string"/>
+     <element name="extracharges" nillable="true" type="xsd:string"/>
+     <element name="rentaldate" nillable="true" type="xsd:string"/>
+     <element name="rentalreturndate" nillable="true" type="xsd:string"/>
+     <element name="rentername" nillable="true" type="xsd:string"/>
+     <element name="rentalreturncity" nillable="true" type="xsd:string"/>
+     <element name="rentalreturnstatecountry" nillable="true" type="xsd:string"/>
+     <element name="rentalreturnlocationid" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="CustomFields">
+    <sequence>
+     <element name="custom1" nillable="true" type="xsd:string"/>
+     <element name="custom2" nillable="true" type="xsd:string"/>
+     <element name="custom3" nillable="true" type="xsd:string"/>
+     <element name="custom4" nillable="true" type="xsd:string"/>
+     <element name="custom5" nillable="true" type="xsd:string"/>
+     <element name="custom6" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="AutoRepair">
+    <sequence>
+     <element name="vin" nillable="true" type="xsd:string"/>
+     <element name="odometer" nillable="true" type="xsd:string"/>
+     <element name="workorder" nillable="true" type="xsd:string"/>
+     <element name="unit" nillable="true" type="xsd:string"/>
+     <element name="repaircode" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="FSA">
+    <sequence>
+     <element name="healthcareflag" type="xsd:int"/>
+     <element name="rxamount" type="xsd:float"/>
+     <element name="clinicamount" type="xsd:float"/>
+     <element name="visionamount" type="xsd:float"/>
+     <element name="dentalamount" type="xsd:float"/>
+    </sequence>
+   </complexType>
+   <complexType name="PurchaseCardLevel2">
+    <sequence>
+     <element name="pocustomerrefid" nillable="true" type="xsd:string"/>
+     <element name="taxamount" type="xsd:float"/>
+     <element name="taxexempt" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="Restaurant">
+    <sequence>
+     <element name="gratuityamount" type="xsd:float"/>
+    </sequence>
+   </complexType>
+   <complexType name="PurchaseCardLevel3">
+    <sequence>
+     <element name="lineitems" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="FleetCardData">
+    <sequence>
+     <element name="atpump" type="xsd:int"/>
+     <element name="idnumber" nillable="true" type="xsd:string"/>
+     <element name="vehicleid" nillable="true" type="xsd:string"/>
+     <element name="driverid" nillable="true" type="xsd:string"/>
+     <element name="odometerreading" nillable="true" type="xsd:string"/>
+     <element name="miscnumericdata" nillable="true" type="xsd:string"/>
+     <element name="jobnumber" nillable="true" type="xsd:string"/>
+     <element name="purchasedevsequencenumber" nillable="true" type="xsd:string"/>
+     <element name="departmentnumber" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="CreditCardInfo">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="ccname" nillable="true" type="xsd:string"/>
+     <element name="swipedata" nillable="true" type="xsd:string"/>
+     <element name="encryptedswipedata" nillable="true" type="xsd:string"/>
+     <element name="encryptedreadertype" type="xsd:int"/>
+     <element name="cardpresent" type="xsd:int"/>
+     <element name="cardreaderpresent" type="xsd:int"/>
+     <element name="voiceauth" nillable="true" type="xsd:string"/>
+     <element name="track1" nillable="true" type="xsd:string"/>
+     <element name="track2" nillable="true" type="xsd:string"/>
+     <element name="ccnum" nillable="true" type="xsd:string"/>
+     <element name="cctype" nillable="true" type="xsd:string"/>
+     <element name="expmon" type="xsd:int"/>
+     <element name="expyear" type="xsd:int"/>
+     <element name="cvv2" type="xsd:int"/>
+     <element name="cvv2_cid" nillable="true" type="xsd:string"/>
+     <element name="amount" type="xsd:float"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="billaddress" nillable="true" type="tns1:address"/>
+     <element name="shipaddress" nillable="true" type="tns1:address"/>
+     <element name="email" nillable="true" type="xsd:string"/>
+     <element name="dlnum" nillable="true" type="xsd:string"/>
+     <element name="ssnum" nillable="true" type="xsd:string"/>
+     <element name="phone" nillable="true" type="xsd:string"/>
+     <element name="dobday" nillable="true" type="xsd:string"/>
+     <element name="dobmonth" nillable="true" type="xsd:string"/>
+     <element name="dobyear" nillable="true" type="xsd:string"/>
+     <element name="memo" nillable="true" type="xsd:string"/>
+     <element name="customizedemail" nillable="true" type="tns1:customEmail"/>
+     <element name="recurring" nillable="true" type="tns1:Recur"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="accttype" type="xsd:int"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="currencycode" nillable="true" type="xsd:string"/>
+     <element name="industrycode" nillable="true" type="xsd:string"/>
+     <element name="dynamicdescriptor" nillable="true" type="xsd:string"/>
+     <element name="profileactiontype" type="xsd:int"/>
+     <element name="manualrecurring" type="xsd:int"/>
+     <element name="hotellodging" nillable="true" type="tns1:HotelLodging"/>
+     <element name="autorental" nillable="true" type="tns1:AutoRental"/>
+     <element name="customizedfields" nillable="true" type="tns1:CustomFields"/>
+     <element name="autorepair" nillable="true" type="tns1:AutoRepair"/>
+     <element name="fsa" nillable="true" type="tns1:FSA"/>
+     <element name="purchasecardlevel2" nillable="true" type="tns1:PurchaseCardLevel2"/>
+     <element name="restaurant" nillable="true" type="tns1:Restaurant"/>
+     <element name="purchasecardlevel3" nillable="true" type="tns1:PurchaseCardLevel3"/>
+     <element name="fleetcarddata" nillable="true" type="tns1:FleetCardData"/>
+     <element name="otp" nillable="true" type="xsd:string"/>
+     <element name="deviceid" nillable="true" type="xsd:string"/>
+     <element name="avs_override" type="xsd:int"/>
+     <element name="cvv2_override" type="xsd:int"/>
+     <element name="loadbalance_override" type="xsd:int"/>
+     <element name="duplicate_override" type="xsd:int"/>
+     <element name="ticketterms" nillable="true" type="xsd:string"/>
+     <element name="accountlookupflag" type="xsd:int"/>
+     <element name="signature" nillable="true" type="xsd:string"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+     <element name="conveniencefeeflag" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="ProcessResult">
+    <sequence>
+     <element name="status" nillable="true" type="xsd:string"/>
+     <element name="result" nillable="true" type="xsd:string"/>
+     <element name="historyid" nillable="true" type="xsd:string"/>
+     <element name="orderid" nillable="true" type="xsd:string"/>
+     <element name="refcode" nillable="true" type="xsd:string"/>
+     <element name="authcode" nillable="true" type="xsd:string"/>
+     <element name="total" type="xsd:float"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="transdate" nillable="true" type="xsd:dateTime"/>
+     <element name="paytype" nillable="true" type="xsd:string"/>
+     <element name="duplicate" type="xsd:int"/>
+     <element name="avsresult" nillable="true" type="xsd:string"/>
+     <element name="cvv2result" nillable="true" type="xsd:string"/>
+     <element name="batchnumber" nillable="true" type="xsd:string"/>
+     <element name="last4digits" nillable="true" type="xsd:string"/>
+     <element name="entrymethod" nillable="true" type="xsd:string"/>
+     <element name="partialapproval" type="xsd:int"/>
+     <element name="actioncode" nillable="true" type="xsd:string"/>
+     <element name="balance" nillable="true" type="xsd:string"/>
+     <element name="recurbillingamount" nillable="true" type="xsd:string"/>
+     <element name="recurnextbillingdate" nillable="true" type="xsd:string"/>
+     <element name="recurbillingcycle" nillable="true" type="xsd:string"/>
+     <element name="recurbillingmax" nillable="true" type="xsd:string"/>
+     <element name="recurcanceldate" nillable="true" type="xsd:string"/>
+     <element name="recurlastattempted" nillable="true" type="xsd:string"/>
+     <element name="recurbillingstatus" nillable="true" type="xsd:string"/>
+     <element name="recurtotalaccept" nillable="true" type="xsd:string"/>
+     <element name="achrcode" nillable="true" type="xsd:string"/>
+     <element name="transactiontype" nillable="true" type="xsd:string"/>
+     <element name="additionaldata" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="VoidCreditPost">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="amount" type="xsd:float"/>
+     <element name="orderid" nillable="true" type="xsd:string"/>
+     <element name="historyid" nillable="true" type="xsd:string"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="customizedfields" nillable="true" type="tns1:CustomFields"/>
+     <element name="purchasecardlevel2" nillable="true" type="tns1:PurchaseCardLevel2"/>
+     <element name="restaurant" nillable="true" type="tns1:Restaurant"/>
+     <element name="purchasecardlevel3" nillable="true" type="tns1:PurchaseCardLevel3"/>
+     <element name="fleetcarddata" nillable="true" type="tns1:FleetCardData"/>
+     <element name="swipedata" nillable="true" type="xsd:string"/>
+     <element name="encryptedswipedata" nillable="true" type="xsd:string"/>
+     <element name="encryptedreadertype" type="xsd:int"/>
+     <element name="cvv2_cid" nillable="true" type="xsd:string"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+     <element name="conveniencefeeflag" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="ACHInfo">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="firstname" nillable="true" type="xsd:string"/>
+     <element name="lastname" nillable="true" type="xsd:string"/>
+     <element name="ckname" nillable="true" type="xsd:string"/>
+     <element name="ckaba" nillable="true" type="xsd:string"/>
+     <element name="ckacct" nillable="true" type="xsd:string"/>
+     <element name="ckno" nillable="true" type="xsd:string"/>
+     <element name="cktype" nillable="true" type="xsd:string"/>
+     <element name="amount" type="xsd:float"/>
+     <element name="ckmicrdata" nillable="true" type="xsd:string"/>
+     <element name="ckterminalcity" nillable="true" type="xsd:string"/>
+     <element name="ckterminalstate" nillable="true" type="xsd:string"/>
+     <element name="ckaccttype" nillable="true" type="xsd:string"/>
+     <element name="ckimagefront" nillable="true" type="xsd:string"/>
+     <element name="ckimageback" nillable="true" type="xsd:string"/>
+     <element name="ckimagetype" nillable="true" type="xsd:string"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="ckaccttypedesc" nillable="true" type="xsd:string"/>
+     <element name="verificationflag" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="billaddress" nillable="true" type="tns1:address"/>
+     <element name="shipaddress" nillable="true" type="tns1:address"/>
+     <element name="email" nillable="true" type="xsd:string"/>
+     <element name="dlnum" nillable="true" type="xsd:string"/>
+     <element name="ssnum" nillable="true" type="xsd:string"/>
+     <element name="phone" nillable="true" type="xsd:string"/>
+     <element name="dobday" nillable="true" type="xsd:string"/>
+     <element name="dobmonth" nillable="true" type="xsd:string"/>
+     <element name="dobyear" nillable="true" type="xsd:string"/>
+     <element name="memo" nillable="true" type="xsd:string"/>
+     <element name="customizedemail" nillable="true" type="tns1:customEmail"/>
+     <element name="recurring" nillable="true" type="tns1:Recur"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="currencycode" nillable="true" type="xsd:string"/>
+     <element name="industrycode" nillable="true" type="xsd:string"/>
+     <element name="profileactiontype" type="xsd:int"/>
+     <element name="hotellodging" nillable="true" type="tns1:HotelLodging"/>
+     <element name="autorental" nillable="true" type="tns1:AutoRental"/>
+     <element name="customizedfields" nillable="true" type="tns1:CustomFields"/>
+     <element name="loadbalance_override" type="xsd:int"/>
+     <element name="duplicate_override" type="xsd:int"/>
+     <element name="signature" nillable="true" type="xsd:string"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+     <element name="conveniencefeeflag" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="DebitInfo">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="ccname" nillable="true" type="xsd:string"/>
+     <element name="encryptedswipedata" nillable="true" type="xsd:string"/>
+     <element name="encryptedreadertype" type="xsd:int"/>
+     <element name="swipedata" nillable="true" type="xsd:string"/>
+     <element name="cardpresent" type="xsd:int"/>
+     <element name="cardreaderpresent" type="xsd:int"/>
+     <element name="customerid" nillable="true" type="xsd:string"/>
+     <element name="cashbackamount" type="xsd:float"/>
+     <element name="amount" type="xsd:float"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="billaddress" nillable="true" type="tns1:address"/>
+     <element name="shipaddress" nillable="true" type="tns1:address"/>
+     <element name="email" nillable="true" type="xsd:string"/>
+     <element name="dlnum" nillable="true" type="xsd:string"/>
+     <element name="ssnum" nillable="true" type="xsd:string"/>
+     <element name="phone" nillable="true" type="xsd:string"/>
+     <element name="memo" nillable="true" type="xsd:string"/>
+     <element name="dobday" nillable="true" type="xsd:string"/>
+     <element name="dobmonth" nillable="true" type="xsd:string"/>
+     <element name="dobyear" nillable="true" type="xsd:string"/>
+     <element name="customizedemail" nillable="true" type="tns1:customEmail"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="currencycode" nillable="true" type="xsd:string"/>
+     <element name="industrycode" nillable="true" type="xsd:string"/>
+     <element name="hotellodging" nillable="true" type="tns1:HotelLodging"/>
+     <element name="autorental" nillable="true" type="tns1:AutoRental"/>
+     <element name="customizedfields" nillable="true" type="tns1:CustomFields"/>
+     <element name="purchasecardlevel3" nillable="true" type="tns1:PurchaseCardLevel3"/>
+     <element name="fleetcarddata" nillable="true" type="tns1:FleetCardData"/>
+     <element name="loadbalance_override" type="xsd:int"/>
+     <element name="duplicate_override" type="xsd:int"/>
+     <element name="signature" nillable="true" type="xsd:string"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+     <element name="conveniencefeeflag" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="DebitReturn">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="amount" type="xsd:float"/>
+     <element name="orderid" nillable="true" type="xsd:string"/>
+     <element name="historyid" nillable="true" type="xsd:string"/>
+     <element name="encryptedswipedata" nillable="true" type="xsd:string"/>
+     <element name="encryptedreadertype" type="xsd:int"/>
+     <element name="swipedata" nillable="true" type="xsd:string"/>
+     <element name="customerid" nillable="true" type="xsd:string"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="email" nillable="true" type="xsd:string"/>
+     <element name="currencycode" nillable="true" type="xsd:string"/>
+     <element name="memo" nillable="true" type="xsd:string"/>
+     <element name="customizedemail" nillable="true" type="tns1:customEmail"/>
+     <element name="customizedfields" nillable="true" type="tns1:CustomFields"/>
+     <element name="purchasecardlevel3" nillable="true" type="tns1:PurchaseCardLevel3"/>
+     <element name="fleetcarddata" nillable="true" type="tns1:FleetCardData"/>
+     <element name="loadbalance_override" type="xsd:int"/>
+     <element name="duplicate_override" type="xsd:int"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+     <element name="conveniencefeeflag" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="ProcessProfileResult">
+    <sequence>
+     <element name="status" nillable="true" type="xsd:string"/>
+     <element name="result" nillable="true" type="xsd:string"/>
+     <element name="historyid" nillable="true" type="xsd:string"/>
+     <element name="orderid" nillable="true" type="xsd:string"/>
+     <element name="refcode" nillable="true" type="xsd:string"/>
+     <element name="authcode" nillable="true" type="xsd:string"/>
+     <element name="total" type="xsd:float"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="transdate" nillable="true" type="xsd:dateTime"/>
+     <element name="paytype" nillable="true" type="xsd:string"/>
+     <element name="duplicate" type="xsd:int"/>
+     <element name="userprofileid" nillable="true" type="xsd:string"/>
+     <element name="paymentprofileid" nillable="true" type="xsd:string"/>
+     <element name="shippingprofileid" nillable="true" type="xsd:string"/>
+     <element name="avsresult" nillable="true" type="xsd:string"/>
+     <element name="cvv2result" nillable="true" type="xsd:string"/>
+     <element name="batchnumber" nillable="true" type="xsd:string"/>
+     <element name="last4digits" nillable="true" type="xsd:string"/>
+     <element name="entrymethod" nillable="true" type="xsd:string"/>
+     <element name="partialapproval" type="xsd:int"/>
+     <element name="actioncode" nillable="true" type="xsd:string"/>
+     <element name="ccnum_decrypt" nillable="true" type="xsd:string"/>
+     <element name="expdate_decrypt" nillable="true" type="xsd:string"/>
+     <element name="billaddr1" nillable="true" type="xsd:string"/>
+     <element name="billaddr2" nillable="true" type="xsd:string"/>
+     <element name="billcity" nillable="true" type="xsd:string"/>
+     <element name="billstate" nillable="true" type="xsd:string"/>
+     <element name="billzip" nillable="true" type="xsd:string"/>
+     <element name="shipaddr1" nillable="true" type="xsd:string"/>
+     <element name="shipaddr2" nillable="true" type="xsd:string"/>
+     <element name="shipcity" nillable="true" type="xsd:string"/>
+     <element name="shipstate" nillable="true" type="xsd:string"/>
+     <element name="shipzip" nillable="true" type="xsd:string"/>
+     <element name="additionaldata" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="ProfileRetrieve">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="last4digits" nillable="true" type="xsd:string"/>
+     <element name="userprofileid" nillable="true" type="xsd:string"/>
+     <element name="paymentprofileid" nillable="true" type="xsd:string"/>
+     <element name="shippingprofileid" nillable="true" type="xsd:string"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="ProfileDelete">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="last4digits" nillable="true" type="xsd:string"/>
+     <element name="userprofileid" nillable="true" type="xsd:string"/>
+     <element name="paymentprofileid" nillable="true" type="xsd:string"/>
+     <element name="shippingprofileid" nillable="true" type="xsd:string"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="ProfileSale">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="amount" type="xsd:float"/>
+     <element name="last4digits" nillable="true" type="xsd:string"/>
+     <element name="userprofileid" nillable="true" type="xsd:string"/>
+     <element name="paymentprofileid" nillable="true" type="xsd:string"/>
+     <element name="shippingprofileid" nillable="true" type="xsd:string"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="authonly" type="xsd:int"/>
+     <element name="cvv2" type="xsd:int"/>
+     <element name="cvv2_cid" nillable="true" type="xsd:string"/>
+     <element name="swipedata" nillable="true" type="xsd:string"/>
+     <element name="encryptedswipedata" nillable="true" type="xsd:string"/>
+     <element name="encryptedreadertype" type="xsd:int"/>
+     <element name="voiceauth" nillable="true" type="xsd:string"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="manualrecurring" type="xsd:int"/>
+     <element name="recurring" nillable="true" type="tns1:Recur"/>
+     <element name="currencycode" nillable="true" type="xsd:string"/>
+     <element name="industrycode" nillable="true" type="xsd:string"/>
+     <element name="hotellodging" nillable="true" type="tns1:HotelLodging"/>
+     <element name="autorental" nillable="true" type="tns1:AutoRental"/>
+     <element name="customizedemail" nillable="true" type="tns1:customEmail"/>
+     <element name="customizedfields" nillable="true" type="tns1:CustomFields"/>
+     <element name="fsa" nillable="true" type="tns1:FSA"/>
+     <element name="purchasecardlevel2" nillable="true" type="tns1:PurchaseCardLevel2"/>
+     <element name="otp" nillable="true" type="xsd:string"/>
+     <element name="deviceid" nillable="true" type="xsd:string"/>
+     <element name="cvv2_override" type="xsd:int"/>
+     <element name="avs_override" type="xsd:int"/>
+     <element name="loadbalance_override" type="xsd:int"/>
+     <element name="duplicate_override" type="xsd:int"/>
+     <element name="ticketterms" nillable="true" type="xsd:string"/>
+     <element name="accountlookupflag" type="xsd:int"/>
+     <element name="signature" nillable="true" type="xsd:string"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+     <element name="conveniencefeeflag" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="ProfileUpdate">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="last4digits" nillable="true" type="xsd:string"/>
+     <element name="userprofileid" nillable="true" type="xsd:string"/>
+     <element name="paymentprofileid" nillable="true" type="xsd:string"/>
+     <element name="shippingprofileid" nillable="true" type="xsd:string"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="ckname" nillable="true" type="xsd:string"/>
+     <element name="ckaba" nillable="true" type="xsd:string"/>
+     <element name="ckacct" nillable="true" type="xsd:string"/>
+     <element name="ckno" nillable="true" type="xsd:string"/>
+     <element name="cktype" nillable="true" type="xsd:string"/>
+     <element name="ckaccttype" nillable="true" type="xsd:string"/>
+     <element name="ccname" nillable="true" type="xsd:string"/>
+     <element name="swipedata" nillable="true" type="xsd:string"/>
+     <element name="encryptedswipedata" nillable="true" type="xsd:string"/>
+     <element name="encryptedreadertype" type="xsd:int"/>
+     <element name="cardpresent" type="xsd:int"/>
+     <element name="cardreaderpresent" type="xsd:int"/>
+     <element name="track1" nillable="true" type="xsd:string"/>
+     <element name="track2" nillable="true" type="xsd:string"/>
+     <element name="ccnum" nillable="true" type="xsd:string"/>
+     <element name="cctype" nillable="true" type="xsd:string"/>
+     <element name="expmon" type="xsd:int"/>
+     <element name="expyear" type="xsd:int"/>
+     <element name="cvv2" type="xsd:int"/>
+     <element name="cvv2_cid" nillable="true" type="xsd:string"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="billaddress" nillable="true" type="tns1:address"/>
+     <element name="shipaddress" nillable="true" type="tns1:address"/>
+     <element name="email" nillable="true" type="xsd:string"/>
+     <element name="dlnum" nillable="true" type="xsd:string"/>
+     <element name="ssnum" nillable="true" type="xsd:string"/>
+     <element name="phone" nillable="true" type="xsd:string"/>
+     <element name="memo" nillable="true" type="xsd:string"/>
+     <element name="currencycode" nillable="true" type="xsd:string"/>
+     <element name="customizedfields" nillable="true" type="tns1:CustomFields"/>
+     <element name="cvv2_override" type="xsd:int"/>
+     <element name="avs_override" type="xsd:int"/>
+     <element name="loadbalance_override" type="xsd:int"/>
+     <element name="accttype" type="xsd:int"/>
+     <element name="profilenobill" type="xsd:int"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="ProfileCredit">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="amount" type="xsd:float"/>
+     <element name="last4digits" nillable="true" type="xsd:string"/>
+     <element name="userprofileid" nillable="true" type="xsd:string"/>
+     <element name="paymentprofileid" nillable="true" type="xsd:string"/>
+     <element name="shippingprofileid" nillable="true" type="xsd:string"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="currencycode" nillable="true" type="xsd:string"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="customizedemail" nillable="true" type="tns1:customEmail"/>
+     <element name="customizedfields" nillable="true" type="tns1:CustomFields"/>
+     <element name="loadbalance_override" type="xsd:int"/>
+     <element name="duplicate_override" type="xsd:int"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+     <element name="conveniencefeeflag" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="TransRetrieve">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="RecurRetrieve">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="orderid" nillable="true" type="xsd:string"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="ProcessRecurRetrieveResult">
+    <sequence>
+     <element name="status" nillable="true" type="xsd:string"/>
+     <element name="result" nillable="true" type="xsd:string"/>
+     <element name="historyid" nillable="true" type="xsd:string"/>
+     <element name="orderid" nillable="true" type="xsd:string"/>
+     <element name="refcode" nillable="true" type="xsd:string"/>
+     <element name="authcode" nillable="true" type="xsd:string"/>
+     <element name="total" type="xsd:float"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="transdate" nillable="true" type="xsd:dateTime"/>
+     <element name="paytype" nillable="true" type="xsd:string"/>
+     <element name="duplicate" type="xsd:int"/>
+     <element name="recurbillingamount" nillable="true" type="xsd:string"/>
+     <element name="recurnextbillingdate" nillable="true" type="xsd:string"/>
+     <element name="recurbillingcycle" nillable="true" type="xsd:string"/>
+     <element name="recurbillingmax" nillable="true" type="xsd:string"/>
+     <element name="recurcanceldate" nillable="true" type="xsd:string"/>
+     <element name="recurlastattempted" nillable="true" type="xsd:string"/>
+     <element name="recurbillingstatus" nillable="true" type="xsd:string"/>
+     <element name="recurtotalaccept" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="C21Info">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="ckname" nillable="true" type="xsd:string"/>
+     <element name="firstname" nillable="true" type="xsd:string"/>
+     <element name="lastname" nillable="true" type="xsd:string"/>
+     <element name="ckaba" nillable="true" type="xsd:string"/>
+     <element name="ckacct" nillable="true" type="xsd:string"/>
+     <element name="ckno" nillable="true" type="xsd:string"/>
+     <element name="cktype" nillable="true" type="xsd:string"/>
+     <element name="amount" type="xsd:float"/>
+     <element name="ckmicrdata" nillable="true" type="xsd:string"/>
+     <element name="ckterminalcity" nillable="true" type="xsd:string"/>
+     <element name="ckterminalstate" nillable="true" type="xsd:string"/>
+     <element name="ckaccttype" nillable="true" type="xsd:string"/>
+     <element name="ckimagefront" nillable="true" type="xsd:string"/>
+     <element name="ckimageback" nillable="true" type="xsd:string"/>
+     <element name="ckimagetype" nillable="true" type="xsd:string"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="billaddress" nillable="true" type="tns1:address"/>
+     <element name="shipaddress" nillable="true" type="tns1:address"/>
+     <element name="email" nillable="true" type="xsd:string"/>
+     <element name="dlnum" nillable="true" type="xsd:string"/>
+     <element name="ssnum" nillable="true" type="xsd:string"/>
+     <element name="phone" nillable="true" type="xsd:string"/>
+     <element name="memo" nillable="true" type="xsd:string"/>
+     <element name="dobday" nillable="true" type="xsd:string"/>
+     <element name="dobmonth" nillable="true" type="xsd:string"/>
+     <element name="dobyear" nillable="true" type="xsd:string"/>
+     <element name="memoline1" nillable="true" type="xsd:string"/>
+     <element name="memoline2" nillable="true" type="xsd:string"/>
+     <element name="memoline3" nillable="true" type="xsd:string"/>
+     <element name="customizedemail" nillable="true" type="tns1:customEmail"/>
+     <element name="recurring" nillable="true" type="tns1:Recur"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="currencycode" nillable="true" type="xsd:string"/>
+     <element name="industrycode" nillable="true" type="xsd:string"/>
+     <element name="billstreet" nillable="true" type="xsd:string"/>
+     <element name="housenumber" nillable="true" type="xsd:string"/>
+     <element name="zip4" nillable="true" type="xsd:string"/>
+     <element name="riskmodifier" nillable="true" type="xsd:string"/>
+     <element name="authenticationmodifier" nillable="true" type="xsd:string"/>
+     <element name="insurancemodifier" nillable="true" type="xsd:string"/>
+     <element name="profileactiontype" type="xsd:int"/>
+     <element name="hotellodging" nillable="true" type="tns1:HotelLodging"/>
+     <element name="autorental" nillable="true" type="tns1:AutoRental"/>
+     <element name="customizedfields" nillable="true" type="tns1:CustomFields"/>
+     <element name="loadbalance_override" type="xsd:int"/>
+     <element name="duplicate_override" type="xsd:int"/>
+     <element name="signature" nillable="true" type="xsd:string"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+     <element name="conveniencefeeflag" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="VoidCreditC21">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="amount" type="xsd:float"/>
+     <element name="orderid" nillable="true" type="xsd:string"/>
+     <element name="historyid" nillable="true" type="xsd:string"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="senddate" nillable="true" type="xsd:string"/>
+     <element name="customizedfields" nillable="true" type="tns1:CustomFields"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+     <element name="conveniencefeeflag" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="ProcessResults">
+    <sequence>
+     <element name="status" nillable="true" type="xsd:string"/>
+     <element name="result" nillable="true" type="xsd:string"/>
+     <element name="historyid" nillable="true" type="xsd:string"/>
+     <element name="orderid" nillable="true" type="xsd:string"/>
+     <element name="refcode" nillable="true" type="xsd:string"/>
+     <element name="authcode" nillable="true" type="xsd:string"/>
+     <element name="total" type="xsd:float"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="transdate" nillable="true" type="xsd:dateTime"/>
+     <element name="paytype" nillable="true" type="xsd:string"/>
+     <element name="duplicate" type="xsd:int"/>
+     <element name="avsresult" nillable="true" type="xsd:string"/>
+     <element name="cvv2result" nillable="true" type="xsd:string"/>
+     <element name="batchnumber" nillable="true" type="xsd:string"/>
+     <element name="last4digits" nillable="true" type="xsd:string"/>
+     <element name="actioncode" nillable="true" type="xsd:string"/>
+     <element name="recurbillingamount" nillable="true" type="xsd:string"/>
+     <element name="recurnextbillingdate" nillable="true" type="xsd:string"/>
+     <element name="recurbillingcycle" nillable="true" type="xsd:string"/>
+     <element name="recurbillingmax" nillable="true" type="xsd:string"/>
+     <element name="recurcanceldate" nillable="true" type="xsd:string"/>
+     <element name="recurlastattempted" nillable="true" type="xsd:string"/>
+     <element name="recurbillingstatus" nillable="true" type="xsd:string"/>
+     <element name="recurtotalaccept" nillable="true" type="xsd:string"/>
+     <element name="achrcode" nillable="true" type="xsd:string"/>
+     <element name="transactiontype" nillable="true" type="xsd:string"/>
+     <element name="additionaldata" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="AccountLookup">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="billaddress" nillable="true" type="tns1:address"/>
+     <element name="ssnum" nillable="true" type="xsd:string"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="ProcessAccountLookupResult">
+    <sequence>
+     <element name="status" nillable="true" type="xsd:string"/>
+     <element name="result" nillable="true" type="xsd:string"/>
+     <element name="historyid" nillable="true" type="xsd:string"/>
+     <element name="orderid" nillable="true" type="xsd:string"/>
+     <element name="refcode" nillable="true" type="xsd:string"/>
+     <element name="authcode" nillable="true" type="xsd:string"/>
+     <element name="paytype" nillable="true" type="xsd:string"/>
+     <element name="last4digits" nillable="true" type="xsd:string"/>
+     <element name="entrymethod" nillable="true" type="xsd:string"/>
+     <element name="firstname" nillable="true" type="xsd:string"/>
+     <element name="lastname" nillable="true" type="xsd:string"/>
+     <element name="phone" nillable="true" type="xsd:string"/>
+     <element name="addr1" nillable="true" type="xsd:string"/>
+     <element name="addr2" nillable="true" type="xsd:string"/>
+     <element name="city" nillable="true" type="xsd:string"/>
+     <element name="state" nillable="true" type="xsd:string"/>
+     <element name="zipcode" nillable="true" type="xsd:string"/>
+     <element name="country" nillable="true" type="xsd:string"/>
+     <element name="additionaldata" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="EBTInfo">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="ccname" nillable="true" type="xsd:string"/>
+     <element name="encryptedswipedata" nillable="true" type="xsd:string"/>
+     <element name="encryptedreadertype" type="xsd:int"/>
+     <element name="swipedata" nillable="true" type="xsd:string"/>
+     <element name="cardpresent" type="xsd:int"/>
+     <element name="cardreaderpresent" type="xsd:int"/>
+     <element name="customerid" nillable="true" type="xsd:string"/>
+     <element name="cashbackamount" type="xsd:float"/>
+     <element name="ebtapprovalcode" nillable="true" type="xsd:string"/>
+     <element name="voucherserialnumber" nillable="true" type="xsd:string"/>
+     <element name="amount" type="xsd:float"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="billaddress" nillable="true" type="tns1:address"/>
+     <element name="shipaddress" nillable="true" type="tns1:address"/>
+     <element name="email" nillable="true" type="xsd:string"/>
+     <element name="dlnum" nillable="true" type="xsd:string"/>
+     <element name="ssnum" nillable="true" type="xsd:string"/>
+     <element name="phone" nillable="true" type="xsd:string"/>
+     <element name="memo" nillable="true" type="xsd:string"/>
+     <element name="dobday" nillable="true" type="xsd:string"/>
+     <element name="dobmonth" nillable="true" type="xsd:string"/>
+     <element name="dobyear" nillable="true" type="xsd:string"/>
+     <element name="customizedemail" nillable="true" type="tns1:customEmail"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="currencycode" nillable="true" type="xsd:string"/>
+     <element name="industrycode" nillable="true" type="xsd:string"/>
+     <element name="hotellodging" nillable="true" type="tns1:HotelLodging"/>
+     <element name="autorental" nillable="true" type="tns1:AutoRental"/>
+     <element name="customizedfields" nillable="true" type="tns1:CustomFields"/>
+     <element name="purchasecardlevel3" nillable="true" type="tns1:PurchaseCardLevel3"/>
+     <element name="fleetcarddata" nillable="true" type="tns1:FleetCardData"/>
+     <element name="loadbalance_override" type="xsd:int"/>
+     <element name="duplicate_override" type="xsd:int"/>
+     <element name="signature" nillable="true" type="xsd:string"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+     <element name="conveniencefeeflag" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="RecurringInfo">
+    <sequence>
+     <element name="acctid" nillable="true" type="xsd:string"/>
+     <element name="accountkey" nillable="true" type="xsd:string"/>
+     <element name="subid" nillable="true" type="xsd:string"/>
+     <element name="acctname" nillable="true" type="xsd:string"/>
+     <element name="accttype" type="xsd:int"/>
+     <element name="acctdata1" nillable="true" type="xsd:string"/>
+     <element name="acctdata2" nillable="true" type="xsd:string"/>
+     <element name="ccnum" nillable="true" type="xsd:string"/>
+     <element name="cctype" nillable="true" type="xsd:string"/>
+     <element name="merchantordernumber" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="billaddress" nillable="true" type="tns1:address"/>
+     <element name="shipaddress" nillable="true" type="tns1:address"/>
+     <element name="email" nillable="true" type="xsd:string"/>
+     <element name="dlnum" nillable="true" type="xsd:string"/>
+     <element name="ssnum" nillable="true" type="xsd:string"/>
+     <element name="phone" nillable="true" type="xsd:string"/>
+     <element name="dobday" nillable="true" type="xsd:string"/>
+     <element name="dobmonth" nillable="true" type="xsd:string"/>
+     <element name="dobyear" nillable="true" type="xsd:string"/>
+     <element name="memo" nillable="true" type="xsd:string"/>
+     <element name="customizedemail" nillable="true" type="tns1:customEmail"/>
+     <element name="recurring" nillable="true" type="tns1:Recur"/>
+     <element name="recur_nextbillingdate" nillable="true" type="xsd:string"/>
+     <element name="ipaddress" nillable="true" type="xsd:string"/>
+     <element name="merchantpin" nillable="true" type="xsd:string"/>
+     <element name="currencycode" nillable="true" type="xsd:string"/>
+     <element name="industrycode" nillable="true" type="xsd:string"/>
+     <element name="dynamicdescriptor" nillable="true" type="xsd:string"/>
+     <element name="profileactiontype" type="xsd:int"/>
+     <element name="manualrecurring" type="xsd:int"/>
+     <element name="customizedfields" nillable="true" type="tns1:CustomFields"/>
+     <element name="avs_override" type="xsd:int"/>
+     <element name="cvv2_override" type="xsd:int"/>
+     <element name="loadbalance_override" type="xsd:int"/>
+     <element name="duplicate_override" type="xsd:int"/>
+     <element name="ticketterms" nillable="true" type="xsd:string"/>
+     <element name="accountlookupflag" type="xsd:int"/>
+     <element name="signature" nillable="true" type="xsd:string"/>
+     <element name="overridepin" nillable="true" type="xsd:string"/>
+     <element name="guid" nillable="true" type="xsd:string"/>
+     <element name="conveniencefeeflag" type="xsd:int"/>
+     <element name="orderid" nillable="true" type="xsd:string"/>
+     <element name="canceltype" type="xsd:int"/>
+     <element name="firstname" nillable="true" type="xsd:string"/>
+     <element name="lastname" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="processRecurRetrieveResponse">
+
+      <wsdl:part name="processRecurRetrieveReturn" type="tns1:ProcessRecurRetrieveResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processAccountLookupRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:AccountLookup"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processSVBalanceInquiryResponse">
+
+      <wsdl:part name="processSVBalanceInquiryReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCAuthenticationResponse">
+
+      <wsdl:part name="processCCAuthenticationReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTFoodStampVoucherSaleResponse">
+
+      <wsdl:part name="processEBTFoodStampVoucherSaleReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processProfileRetrieveRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:ProfileRetrieve"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTFoodStampReturnResponse">
+
+      <wsdl:part name="processEBTFoodStampReturnReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processACHSaleRequest">
+
+      <wsdl:part name="ckinfo" type="tns1:ACHInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCreditResponse">
+
+      <wsdl:part name="processCreditReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitReturnResponse">
+
+      <wsdl:part name="processDebitReturnReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCSaleRequest">
+
+      <wsdl:part name="ccinfo" type="tns1:CreditCardInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processC21ICLSaleResponse">
+
+      <wsdl:part name="processC21ICLSaleReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitVoidRequest">
+
+      <wsdl:part name="debitvoid" type="tns1:DebitReturn"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processProfileSaleResponse">
+
+      <wsdl:part name="processProfileSaleReturn" type="tns1:ProcessProfileResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitPinlessRequest">
+
+      <wsdl:part name="ccinfo" type="tns1:CreditCardInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processRecurUpdateResponse">
+
+      <wsdl:part name="processRecurUpdateReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processC21CreditResponse">
+
+      <wsdl:part name="processC21CreditReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processSVRefundResponse">
+
+      <wsdl:part name="processSVRefundReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processRecurCancelResponse">
+
+      <wsdl:part name="processRecurCancelReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processRecurCancelRequest">
+
+      <wsdl:part name="recurringinfo" type="tns1:RecurringInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCPostResponse">
+
+      <wsdl:part name="processCCPostReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTFoodStampSaleRequest">
+
+      <wsdl:part name="ebtinfo" type="tns1:EBTInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processProfileUpdateResponse">
+
+      <wsdl:part name="processProfileUpdateReturn" type="tns1:ProcessProfileResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTCashBenefitBalanceInquiryRequest">
+
+      <wsdl:part name="ebtinfo" type="tns1:EBTInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processACHCreditRequest">
+
+      <wsdl:part name="ckinfo" type="tns1:ACHInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processExtACHCreditResponse">
+
+      <wsdl:part name="processExtACHCreditReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitSaleRequest">
+
+      <wsdl:part name="debitinfo" type="tns1:DebitInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitAuthResponse">
+
+      <wsdl:part name="processDebitAuthReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCCreditResponse">
+
+      <wsdl:part name="processCCCreditReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processSVSaleRequest">
+
+      <wsdl:part name="ccinfo" type="tns1:CreditCardInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCSaleResponse">
+
+      <wsdl:part name="processCCSaleReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitPinlessResponse">
+
+      <wsdl:part name="processDebitPinlessReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processExtACHConsumerDisbursementRequest">
+
+      <wsdl:part name="ckinfo" type="tns1:ACHInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitReturnsResponse">
+
+      <wsdl:part name="processDebitReturnsReturn" type="tns1:ProcessResults"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processExtACHCreditRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:VoidCreditPost"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCAuthRequest">
+
+      <wsdl:part name="ccinfo" type="tns1:CreditCardInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processExtACHVoidRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:VoidCreditPost"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processACHCreditResponse">
+
+      <wsdl:part name="processACHCreditReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCVoidResponse">
+
+      <wsdl:part name="processCCVoidReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTCashBenefitBalanceInquiryResponse">
+
+      <wsdl:part name="processEBTCashBenefitBalanceInquiryReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processAuthReverseResponse">
+
+      <wsdl:part name="processAuthReverseReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processSVDeactivateRequest">
+
+      <wsdl:part name="ccinfo" type="tns1:CreditCardInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processExtACHProfileAddRequest">
+
+      <wsdl:part name="achinfo" type="tns1:ACHInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTFoodStampBalanceInquiryResponse">
+
+      <wsdl:part name="processEBTFoodStampBalanceInquiryReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processSVBalanceInquiryRequest">
+
+      <wsdl:part name="ccinfo" type="tns1:CreditCardInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCAuthenticationRequest">
+
+      <wsdl:part name="ccinfo" type="tns1:CreditCardInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processC21SaleRequest">
+
+      <wsdl:part name="ckinfo" type="tns1:C21Info"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processVoidRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:VoidCreditPost"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitPinlessCreditRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:VoidCreditPost"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processExtACHVoidResponse">
+
+      <wsdl:part name="processExtACHVoidReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTCashBenefitSaleRequest">
+
+      <wsdl:part name="ebtinfo" type="tns1:EBTInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitReturnsRequest">
+
+      <wsdl:part name="debitreturn" type="tns1:DebitReturn"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processACHVerificationRequest">
+
+      <wsdl:part name="ckinfo" type="tns1:ACHInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processProfileUpdateRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:ProfileUpdate"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCProfileAddResponse">
+
+      <wsdl:part name="processCCProfileAddReturn" type="tns1:ProcessProfileResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processRecurUpdateRequest">
+
+      <wsdl:part name="recurringinfo" type="tns1:RecurringInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processSVAddValueRequest">
+
+      <wsdl:part name="ccinfo" type="tns1:CreditCardInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTFoodStampReturnRequest">
+
+      <wsdl:part name="ebtinfo" type="tns1:EBTInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processACHSaleResponse">
+
+      <wsdl:part name="processACHSaleReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processC21ICLCreditResponse">
+
+      <wsdl:part name="processC21ICLCreditReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processSVIssueResponse">
+
+      <wsdl:part name="processSVIssueReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processTransRetrieveRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:TransRetrieve"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitSaleResponse">
+
+      <wsdl:part name="processDebitSaleReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitSalesRequest">
+
+      <wsdl:part name="debitinfo" type="tns1:DebitInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processIncrementalAuthResponse">
+
+      <wsdl:part name="processIncrementalAuthReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processC21ICLCreditRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:VoidCreditC21"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processAuthReverseRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:VoidCreditPost"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCAuthResponse">
+
+      <wsdl:part name="processCCAuthReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitPostRequest">
+
+      <wsdl:part name="debitpost" type="tns1:DebitReturn"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processRecurRetrieveRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:RecurRetrieve"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processSVDeactivateResponse">
+
+      <wsdl:part name="processSVDeactivateReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processC21ICLSaleRequest">
+
+      <wsdl:part name="ckinfo" type="tns1:C21Info"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTCashBenefitWithdrawalResponse">
+
+      <wsdl:part name="processEBTCashBenefitWithdrawalReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processC21CreditRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:VoidCreditC21"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTFoodStampVoucherSaleRequest">
+
+      <wsdl:part name="ebtinfo" type="tns1:EBTInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processExtACHSaleRequest">
+
+      <wsdl:part name="ckinfo" type="tns1:ACHInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processExtACHProfileAddResponse">
+
+      <wsdl:part name="processExtACHProfileAddReturn" type="tns1:ProcessProfileResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitReturnRequest">
+
+      <wsdl:part name="debitreturn" type="tns1:DebitReturn"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitPostResponse">
+
+      <wsdl:part name="processDebitPostReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processACHVerificationResponse">
+
+      <wsdl:part name="processACHVerificationReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTFoodStampBalanceInquiryRequest">
+
+      <wsdl:part name="ebtinfo" type="tns1:EBTInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processSVSaleResponse">
+
+      <wsdl:part name="processSVSaleReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitSalesResponse">
+
+      <wsdl:part name="processDebitSalesReturn" type="tns1:ProcessResults"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTCashBenefitSaleResponse">
+
+      <wsdl:part name="processEBTCashBenefitSaleReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processProfileDeleteRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:ProfileDelete"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCPostRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:VoidCreditPost"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCVoidRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:VoidCreditPost"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCSalesRequest">
+
+      <wsdl:part name="ccinfo" type="tns1:CreditCardInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTVoidRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:VoidCreditPost"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processSVAddValueResponse">
+
+      <wsdl:part name="processSVAddValueReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTVoidResponse">
+
+      <wsdl:part name="processEBTVoidReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processC21ICLVoidResponse">
+
+      <wsdl:part name="processC21ICLVoidReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTCashBenefitWithdrawalRequest">
+
+      <wsdl:part name="ebtinfo" type="tns1:EBTInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processRecurAddRequest">
+
+      <wsdl:part name="recurringinfo" type="tns1:RecurringInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitAuthRequest">
+
+      <wsdl:part name="debitinfo" type="tns1:DebitInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processExtACHSaleResponse">
+
+      <wsdl:part name="processExtACHSaleReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processProfileSaleRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:ProfileSale"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitVoidResponse">
+
+      <wsdl:part name="processDebitVoidReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCAuthsResponse">
+
+      <wsdl:part name="processCCAuthsReturn" type="tns1:ProcessResults"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCreditRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:VoidCreditPost"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCCreditsResponse">
+
+      <wsdl:part name="processCCCreditsReturn" type="tns1:ProcessResults"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processVoidResponse">
+
+      <wsdl:part name="processVoidReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCProfileAddRequest">
+
+      <wsdl:part name="ccinfo" type="tns1:CreditCardInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processDebitPinlessCreditResponse">
+
+      <wsdl:part name="processDebitPinlessCreditReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processSVRefundRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:VoidCreditPost"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCAuthsRequest">
+
+      <wsdl:part name="ccinfo" type="tns1:CreditCardInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processAccountLookupResponse">
+
+      <wsdl:part name="processAccountLookupReturn" type="tns1:ProcessAccountLookupResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processTransRetrieveResponse">
+
+      <wsdl:part name="processTransRetrieveReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCKProfileAddResponse">
+
+      <wsdl:part name="processCKProfileAddReturn" type="tns1:ProcessProfileResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTFoodStampSaleResponse">
+
+      <wsdl:part name="processEBTFoodStampSaleReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCCreditRequest">
+
+      <wsdl:part name="ccinfo" type="tns1:CreditCardInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processProfileRetrieveResponse">
+
+      <wsdl:part name="processProfileRetrieveReturn" type="tns1:ProcessProfileResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTBalanceInquiryResponse">
+
+      <wsdl:part name="processEBTBalanceInquiryReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processExtACHConsumerDisbursementResponse">
+
+      <wsdl:part name="processExtACHConsumerDisbursementReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCCreditsRequest">
+
+      <wsdl:part name="ccinfo" type="tns1:CreditCardInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processProfileCreditRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:ProfileCredit"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processC21ICLVoidRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:VoidCreditC21"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTBalanceInquiryRequest">
+
+      <wsdl:part name="ebtinfo" type="tns1:EBTInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processC21SaleResponse">
+
+      <wsdl:part name="processC21SaleReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processRecurAddResponse">
+
+      <wsdl:part name="processRecurAddReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processProfileCreditResponse">
+
+      <wsdl:part name="processProfileCreditReturn" type="tns1:ProcessProfileResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTCashBenefitReturnResponse">
+
+      <wsdl:part name="processEBTCashBenefitReturnReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processEBTCashBenefitReturnRequest">
+
+      <wsdl:part name="ebtinfo" type="tns1:EBTInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processC21VoidRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:VoidCreditC21"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processC21VoidResponse">
+
+      <wsdl:part name="processC21VoidReturn" type="tns1:ProcessResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processIncrementalAuthRequest">
+
+      <wsdl:part name="miscprocess" type="tns1:VoidCreditPost"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processSVIssueRequest">
+
+      <wsdl:part name="ccinfo" type="tns1:CreditCardInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processProfileDeleteResponse">
+
+      <wsdl:part name="processProfileDeleteReturn" type="tns1:ProcessProfileResult"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCKProfileAddRequest">
+
+      <wsdl:part name="achinfo" type="tns1:ACHInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="processCCSalesResponse">
+
+      <wsdl:part name="processCCSalesReturn" type="tns1:ProcessResults"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="TransactionSOAPBindingImpl">
+
+      <wsdl:operation name="processCCSale" parameterOrder="ccinfo">
+
+         <wsdl:input message="impl:processCCSaleRequest" name="processCCSaleRequest"/>
+
+         <wsdl:output message="impl:processCCSaleResponse" name="processCCSaleResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCAuth" parameterOrder="ccinfo">
+
+         <wsdl:input message="impl:processCCAuthRequest" name="processCCAuthRequest"/>
+
+         <wsdl:output message="impl:processCCAuthResponse" name="processCCAuthResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCVoid" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processCCVoidRequest" name="processCCVoidRequest"/>
+
+         <wsdl:output message="impl:processCCVoidResponse" name="processCCVoidResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCPost" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processCCPostRequest" name="processCCPostRequest"/>
+
+         <wsdl:output message="impl:processCCPostResponse" name="processCCPostResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processACHSale" parameterOrder="ckinfo">
+
+         <wsdl:input message="impl:processACHSaleRequest" name="processACHSaleRequest"/>
+
+         <wsdl:output message="impl:processACHSaleResponse" name="processACHSaleResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processACHVerification" parameterOrder="ckinfo">
+
+         <wsdl:input message="impl:processACHVerificationRequest" name="processACHVerificationRequest"/>
+
+         <wsdl:output message="impl:processACHVerificationResponse" name="processACHVerificationResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCCredit" parameterOrder="ccinfo">
+
+         <wsdl:input message="impl:processCCCreditRequest" name="processCCCreditRequest"/>
+
+         <wsdl:output message="impl:processCCCreditResponse" name="processCCCreditResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processACHCredit" parameterOrder="ckinfo">
+
+         <wsdl:input message="impl:processACHCreditRequest" name="processACHCreditRequest"/>
+
+         <wsdl:output message="impl:processACHCreditResponse" name="processACHCreditResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCredit" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processCreditRequest" name="processCreditRequest"/>
+
+         <wsdl:output message="impl:processCreditResponse" name="processCreditResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitSale" parameterOrder="debitinfo">
+
+         <wsdl:input message="impl:processDebitSaleRequest" name="processDebitSaleRequest"/>
+
+         <wsdl:output message="impl:processDebitSaleResponse" name="processDebitSaleResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitReturn" parameterOrder="debitreturn">
+
+         <wsdl:input message="impl:processDebitReturnRequest" name="processDebitReturnRequest"/>
+
+         <wsdl:output message="impl:processDebitReturnResponse" name="processDebitReturnResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCProfileAdd" parameterOrder="ccinfo">
+
+         <wsdl:input message="impl:processCCProfileAddRequest" name="processCCProfileAddRequest"/>
+
+         <wsdl:output message="impl:processCCProfileAddResponse" name="processCCProfileAddResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCKProfileAdd" parameterOrder="achinfo">
+
+         <wsdl:input message="impl:processCKProfileAddRequest" name="processCKProfileAddRequest"/>
+
+         <wsdl:output message="impl:processCKProfileAddResponse" name="processCKProfileAddResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processProfileRetrieve" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processProfileRetrieveRequest" name="processProfileRetrieveRequest"/>
+
+         <wsdl:output message="impl:processProfileRetrieveResponse" name="processProfileRetrieveResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processProfileDelete" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processProfileDeleteRequest" name="processProfileDeleteRequest"/>
+
+         <wsdl:output message="impl:processProfileDeleteResponse" name="processProfileDeleteResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processProfileSale" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processProfileSaleRequest" name="processProfileSaleRequest"/>
+
+         <wsdl:output message="impl:processProfileSaleResponse" name="processProfileSaleResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processProfileUpdate" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processProfileUpdateRequest" name="processProfileUpdateRequest"/>
+
+         <wsdl:output message="impl:processProfileUpdateResponse" name="processProfileUpdateResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processProfileCredit" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processProfileCreditRequest" name="processProfileCreditRequest"/>
+
+         <wsdl:output message="impl:processProfileCreditResponse" name="processProfileCreditResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processExtACHVoid" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processExtACHVoidRequest" name="processExtACHVoidRequest"/>
+
+         <wsdl:output message="impl:processExtACHVoidResponse" name="processExtACHVoidResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processExtACHCredit" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processExtACHCreditRequest" name="processExtACHCreditRequest"/>
+
+         <wsdl:output message="impl:processExtACHCreditResponse" name="processExtACHCreditResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processExtACHSale" parameterOrder="ckinfo">
+
+         <wsdl:input message="impl:processExtACHSaleRequest" name="processExtACHSaleRequest"/>
+
+         <wsdl:output message="impl:processExtACHSaleResponse" name="processExtACHSaleResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processExtACHConsumerDisbursement" parameterOrder="ckinfo">
+
+         <wsdl:input message="impl:processExtACHConsumerDisbursementRequest" name="processExtACHConsumerDisbursementRequest"/>
+
+         <wsdl:output message="impl:processExtACHConsumerDisbursementResponse" name="processExtACHConsumerDisbursementResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processTransRetrieve" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processTransRetrieveRequest" name="processTransRetrieveRequest"/>
+
+         <wsdl:output message="impl:processTransRetrieveResponse" name="processTransRetrieveResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processRecurRetrieve" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processRecurRetrieveRequest" name="processRecurRetrieveRequest"/>
+
+         <wsdl:output message="impl:processRecurRetrieveResponse" name="processRecurRetrieveResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processC21ICLSale" parameterOrder="ckinfo">
+
+         <wsdl:input message="impl:processC21ICLSaleRequest" name="processC21ICLSaleRequest"/>
+
+         <wsdl:output message="impl:processC21ICLSaleResponse" name="processC21ICLSaleResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processC21ICLVoid" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processC21ICLVoidRequest" name="processC21ICLVoidRequest"/>
+
+         <wsdl:output message="impl:processC21ICLVoidResponse" name="processC21ICLVoidResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processC21ICLCredit" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processC21ICLCreditRequest" name="processC21ICLCreditRequest"/>
+
+         <wsdl:output message="impl:processC21ICLCreditResponse" name="processC21ICLCreditResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCAuthentication" parameterOrder="ccinfo">
+
+         <wsdl:input message="impl:processCCAuthenticationRequest" name="processCCAuthenticationRequest"/>
+
+         <wsdl:output message="impl:processCCAuthenticationResponse" name="processCCAuthenticationResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCSales" parameterOrder="ccinfo">
+
+         <wsdl:input message="impl:processCCSalesRequest" name="processCCSalesRequest"/>
+
+         <wsdl:output message="impl:processCCSalesResponse" name="processCCSalesResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCAuths" parameterOrder="ccinfo">
+
+         <wsdl:input message="impl:processCCAuthsRequest" name="processCCAuthsRequest"/>
+
+         <wsdl:output message="impl:processCCAuthsResponse" name="processCCAuthsResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCCredits" parameterOrder="ccinfo">
+
+         <wsdl:input message="impl:processCCCreditsRequest" name="processCCCreditsRequest"/>
+
+         <wsdl:output message="impl:processCCCreditsResponse" name="processCCCreditsResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitSales" parameterOrder="debitinfo">
+
+         <wsdl:input message="impl:processDebitSalesRequest" name="processDebitSalesRequest"/>
+
+         <wsdl:output message="impl:processDebitSalesResponse" name="processDebitSalesResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitReturns" parameterOrder="debitreturn">
+
+         <wsdl:input message="impl:processDebitReturnsRequest" name="processDebitReturnsRequest"/>
+
+         <wsdl:output message="impl:processDebitReturnsResponse" name="processDebitReturnsResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processC21Sale" parameterOrder="ckinfo">
+
+         <wsdl:input message="impl:processC21SaleRequest" name="processC21SaleRequest"/>
+
+         <wsdl:output message="impl:processC21SaleResponse" name="processC21SaleResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processC21Void" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processC21VoidRequest" name="processC21VoidRequest"/>
+
+         <wsdl:output message="impl:processC21VoidResponse" name="processC21VoidResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processC21Credit" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processC21CreditRequest" name="processC21CreditRequest"/>
+
+         <wsdl:output message="impl:processC21CreditResponse" name="processC21CreditResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitAuth" parameterOrder="debitinfo">
+
+         <wsdl:input message="impl:processDebitAuthRequest" name="processDebitAuthRequest"/>
+
+         <wsdl:output message="impl:processDebitAuthResponse" name="processDebitAuthResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitVoid" parameterOrder="debitvoid">
+
+         <wsdl:input message="impl:processDebitVoidRequest" name="processDebitVoidRequest"/>
+
+         <wsdl:output message="impl:processDebitVoidResponse" name="processDebitVoidResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitPost" parameterOrder="debitpost">
+
+         <wsdl:input message="impl:processDebitPostRequest" name="processDebitPostRequest"/>
+
+         <wsdl:output message="impl:processDebitPostResponse" name="processDebitPostResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processVoid" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processVoidRequest" name="processVoidRequest"/>
+
+         <wsdl:output message="impl:processVoidResponse" name="processVoidResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitPinless" parameterOrder="ccinfo">
+
+         <wsdl:input message="impl:processDebitPinlessRequest" name="processDebitPinlessRequest"/>
+
+         <wsdl:output message="impl:processDebitPinlessResponse" name="processDebitPinlessResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processAccountLookup" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processAccountLookupRequest" name="processAccountLookupRequest"/>
+
+         <wsdl:output message="impl:processAccountLookupResponse" name="processAccountLookupResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processAuthReverse" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processAuthReverseRequest" name="processAuthReverseRequest"/>
+
+         <wsdl:output message="impl:processAuthReverseResponse" name="processAuthReverseResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processIncrementalAuth" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processIncrementalAuthRequest" name="processIncrementalAuthRequest"/>
+
+         <wsdl:output message="impl:processIncrementalAuthResponse" name="processIncrementalAuthResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processExtACHProfileAdd" parameterOrder="achinfo">
+
+         <wsdl:input message="impl:processExtACHProfileAddRequest" name="processExtACHProfileAddRequest"/>
+
+         <wsdl:output message="impl:processExtACHProfileAddResponse" name="processExtACHProfileAddResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitPinlessCredit" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processDebitPinlessCreditRequest" name="processDebitPinlessCreditRequest"/>
+
+         <wsdl:output message="impl:processDebitPinlessCreditResponse" name="processDebitPinlessCreditResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processSVSale" parameterOrder="ccinfo">
+
+         <wsdl:input message="impl:processSVSaleRequest" name="processSVSaleRequest"/>
+
+         <wsdl:output message="impl:processSVSaleResponse" name="processSVSaleResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processSVAddValue" parameterOrder="ccinfo">
+
+         <wsdl:input message="impl:processSVAddValueRequest" name="processSVAddValueRequest"/>
+
+         <wsdl:output message="impl:processSVAddValueResponse" name="processSVAddValueResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processSVIssue" parameterOrder="ccinfo">
+
+         <wsdl:input message="impl:processSVIssueRequest" name="processSVIssueRequest"/>
+
+         <wsdl:output message="impl:processSVIssueResponse" name="processSVIssueResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processSVDeactivate" parameterOrder="ccinfo">
+
+         <wsdl:input message="impl:processSVDeactivateRequest" name="processSVDeactivateRequest"/>
+
+         <wsdl:output message="impl:processSVDeactivateResponse" name="processSVDeactivateResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processSVBalanceInquiry" parameterOrder="ccinfo">
+
+         <wsdl:input message="impl:processSVBalanceInquiryRequest" name="processSVBalanceInquiryRequest"/>
+
+         <wsdl:output message="impl:processSVBalanceInquiryResponse" name="processSVBalanceInquiryResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processSVRefund" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processSVRefundRequest" name="processSVRefundRequest"/>
+
+         <wsdl:output message="impl:processSVRefundResponse" name="processSVRefundResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTBalanceInquiry" parameterOrder="ebtinfo">
+
+         <wsdl:input message="impl:processEBTBalanceInquiryRequest" name="processEBTBalanceInquiryRequest"/>
+
+         <wsdl:output message="impl:processEBTBalanceInquiryResponse" name="processEBTBalanceInquiryResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTCashBenefitBalanceInquiry" parameterOrder="ebtinfo">
+
+         <wsdl:input message="impl:processEBTCashBenefitBalanceInquiryRequest" name="processEBTCashBenefitBalanceInquiryRequest"/>
+
+         <wsdl:output message="impl:processEBTCashBenefitBalanceInquiryResponse" name="processEBTCashBenefitBalanceInquiryResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTCashBenefitReturn" parameterOrder="ebtinfo">
+
+         <wsdl:input message="impl:processEBTCashBenefitReturnRequest" name="processEBTCashBenefitReturnRequest"/>
+
+         <wsdl:output message="impl:processEBTCashBenefitReturnResponse" name="processEBTCashBenefitReturnResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTCashBenefitWithdrawal" parameterOrder="ebtinfo">
+
+         <wsdl:input message="impl:processEBTCashBenefitWithdrawalRequest" name="processEBTCashBenefitWithdrawalRequest"/>
+
+         <wsdl:output message="impl:processEBTCashBenefitWithdrawalResponse" name="processEBTCashBenefitWithdrawalResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTCashBenefitSale" parameterOrder="ebtinfo">
+
+         <wsdl:input message="impl:processEBTCashBenefitSaleRequest" name="processEBTCashBenefitSaleRequest"/>
+
+         <wsdl:output message="impl:processEBTCashBenefitSaleResponse" name="processEBTCashBenefitSaleResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTFoodStampVoucherSale" parameterOrder="ebtinfo">
+
+         <wsdl:input message="impl:processEBTFoodStampVoucherSaleRequest" name="processEBTFoodStampVoucherSaleRequest"/>
+
+         <wsdl:output message="impl:processEBTFoodStampVoucherSaleResponse" name="processEBTFoodStampVoucherSaleResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTFoodStampReturn" parameterOrder="ebtinfo">
+
+         <wsdl:input message="impl:processEBTFoodStampReturnRequest" name="processEBTFoodStampReturnRequest"/>
+
+         <wsdl:output message="impl:processEBTFoodStampReturnResponse" name="processEBTFoodStampReturnResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTFoodStampSale" parameterOrder="ebtinfo">
+
+         <wsdl:input message="impl:processEBTFoodStampSaleRequest" name="processEBTFoodStampSaleRequest"/>
+
+         <wsdl:output message="impl:processEBTFoodStampSaleResponse" name="processEBTFoodStampSaleResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTFoodStampBalanceInquiry" parameterOrder="ebtinfo">
+
+         <wsdl:input message="impl:processEBTFoodStampBalanceInquiryRequest" name="processEBTFoodStampBalanceInquiryRequest"/>
+
+         <wsdl:output message="impl:processEBTFoodStampBalanceInquiryResponse" name="processEBTFoodStampBalanceInquiryResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTVoid" parameterOrder="miscprocess">
+
+         <wsdl:input message="impl:processEBTVoidRequest" name="processEBTVoidRequest"/>
+
+         <wsdl:output message="impl:processEBTVoidResponse" name="processEBTVoidResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processRecurAdd" parameterOrder="recurringinfo">
+
+         <wsdl:input message="impl:processRecurAddRequest" name="processRecurAddRequest"/>
+
+         <wsdl:output message="impl:processRecurAddResponse" name="processRecurAddResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processRecurUpdate" parameterOrder="recurringinfo">
+
+         <wsdl:input message="impl:processRecurUpdateRequest" name="processRecurUpdateRequest"/>
+
+         <wsdl:output message="impl:processRecurUpdateResponse" name="processRecurUpdateResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processRecurCancel" parameterOrder="recurringinfo">
+
+         <wsdl:input message="impl:processRecurCancelRequest" name="processRecurCancelRequest"/>
+
+         <wsdl:output message="impl:processRecurCancelResponse" name="processRecurCancelResponse"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="TransactionServiceSoapBinding" type="impl:TransactionSOAPBindingImpl">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="processCCSale">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processCCSaleRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processCCSaleResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCAuth">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processCCAuthRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processCCAuthResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCVoid">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processCCVoidRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processCCVoidResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCPost">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processCCPostRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processCCPostResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processACHSale">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processACHSaleRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processACHSaleResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processACHVerification">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processACHVerificationRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processACHVerificationResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCCredit">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processCCCreditRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processCCCreditResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processACHCredit">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processACHCreditRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processACHCreditResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCredit">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processCreditRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processCreditResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitSale">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processDebitSaleRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processDebitSaleResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitReturn">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processDebitReturnRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processDebitReturnResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCProfileAdd">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processCCProfileAddRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processCCProfileAddResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCKProfileAdd">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processCKProfileAddRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processCKProfileAddResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processProfileRetrieve">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processProfileRetrieveRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processProfileRetrieveResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processProfileDelete">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processProfileDeleteRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processProfileDeleteResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processProfileSale">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processProfileSaleRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processProfileSaleResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processProfileUpdate">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processProfileUpdateRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processProfileUpdateResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processProfileCredit">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processProfileCreditRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processProfileCreditResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processExtACHVoid">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processExtACHVoidRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processExtACHVoidResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processExtACHCredit">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processExtACHCreditRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processExtACHCreditResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processExtACHSale">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processExtACHSaleRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processExtACHSaleResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processExtACHConsumerDisbursement">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processExtACHConsumerDisbursementRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processExtACHConsumerDisbursementResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processTransRetrieve">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processTransRetrieveRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processTransRetrieveResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processRecurRetrieve">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processRecurRetrieveRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processRecurRetrieveResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processC21ICLSale">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processC21ICLSaleRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processC21ICLSaleResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processC21ICLVoid">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processC21ICLVoidRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processC21ICLVoidResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processC21ICLCredit">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processC21ICLCreditRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processC21ICLCreditResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCAuthentication">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processCCAuthenticationRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processCCAuthenticationResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCSales">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processCCSalesRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processCCSalesResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCAuths">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processCCAuthsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processCCAuthsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processCCCredits">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processCCCreditsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processCCCreditsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitSales">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processDebitSalesRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processDebitSalesResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitReturns">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processDebitReturnsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processDebitReturnsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processC21Sale">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processC21SaleRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processC21SaleResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processC21Void">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processC21VoidRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processC21VoidResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processC21Credit">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processC21CreditRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processC21CreditResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitAuth">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processDebitAuthRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processDebitAuthResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitVoid">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processDebitVoidRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processDebitVoidResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitPost">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processDebitPostRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processDebitPostResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processVoid">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processVoidRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processVoidResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitPinless">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processDebitPinlessRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processDebitPinlessResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processAccountLookup">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processAccountLookupRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processAccountLookupResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processAuthReverse">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processAuthReverseRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processAuthReverseResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processIncrementalAuth">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processIncrementalAuthRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processIncrementalAuthResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processExtACHProfileAdd">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processExtACHProfileAddRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processExtACHProfileAddResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processDebitPinlessCredit">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processDebitPinlessCreditRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processDebitPinlessCreditResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processSVSale">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processSVSaleRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processSVSaleResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processSVAddValue">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processSVAddValueRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processSVAddValueResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processSVIssue">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processSVIssueRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processSVIssueResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processSVDeactivate">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processSVDeactivateRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processSVDeactivateResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processSVBalanceInquiry">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processSVBalanceInquiryRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processSVBalanceInquiryResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processSVRefund">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processSVRefundRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processSVRefundResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTBalanceInquiry">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processEBTBalanceInquiryRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processEBTBalanceInquiryResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTCashBenefitBalanceInquiry">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processEBTCashBenefitBalanceInquiryRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processEBTCashBenefitBalanceInquiryResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTCashBenefitReturn">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processEBTCashBenefitReturnRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processEBTCashBenefitReturnResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTCashBenefitWithdrawal">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processEBTCashBenefitWithdrawalRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processEBTCashBenefitWithdrawalResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTCashBenefitSale">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processEBTCashBenefitSaleRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processEBTCashBenefitSaleResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTFoodStampVoucherSale">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processEBTFoodStampVoucherSaleRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processEBTFoodStampVoucherSaleResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTFoodStampReturn">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processEBTFoodStampReturnRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processEBTFoodStampReturnResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTFoodStampSale">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processEBTFoodStampSaleRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processEBTFoodStampSaleResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTFoodStampBalanceInquiry">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processEBTFoodStampBalanceInquiryRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processEBTFoodStampBalanceInquiryResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processEBTVoid">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processEBTVoidRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processEBTVoidResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processRecurAdd">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processRecurAddRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processRecurAddResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processRecurUpdate">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processRecurUpdateRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processRecurUpdateResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="processRecurCancel">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="processRecurCancelRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://MPTransProcess" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="processRecurCancelResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://trans.merchantsolution.com/Web/services/TransactionService" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="TransactionSOAPBindingImplService">
+
+      <wsdl:port binding="impl:TransactionServiceSoapBinding" name="TransactionService">
+
+         <wsdlsoap:address location="https://trans.merchantsolution.com/Web/services/TransactionService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

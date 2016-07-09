@@ -399,7 +399,7 @@ class Reeservation_mcp {
         
 		$vars['pagination'] = $this->EE->pagination->create_links();
         
-        if ($this->EE->config->item('app_version')>=260)
+        if (version_compare(APP_VER, '2.6.0', '>='))
         {
         	$this->EE->view->cp_page_title = lang('reeservation_module_name');
         }
@@ -520,7 +520,7 @@ class Reeservation_mcp {
             $vars['data']['include_comment'] = form_dropdown('include_comment', $yesno);
         }
 
-        if ($this->EE->config->item('app_version')>=260)
+        if (version_compare(APP_VER, '2.6.0', '>='))
         {
         	$this->EE->view->cp_page_title = lang('reeservation_module_name');
         }
@@ -668,7 +668,7 @@ class Reeservation_mcp {
         $vars['data']['moderator_comment'] = form_textarea('moderator_comment');
         $vars['data']['notify_user_on_creation'] = form_dropdown('notify_user', $yesno, $this->settings['send_user_notification']);
 
-        if ($this->EE->config->item('app_version')>=260)
+        if (version_compare(APP_VER, '2.6.0', '>='))
         {
         	$this->EE->view->cp_page_title = lang('reeservation_module_name');
         }
@@ -1345,7 +1345,7 @@ class Reeservation_mcp {
             'send_user_notification'	=> form_dropdown('send_user_notification', $yesno, $this->settings['send_user_notification'])
     		);
     	
-    	if ($this->EE->config->item('app_version')>=260)
+    	if (version_compare(APP_VER, '2.6.0', '>='))
         {
         	$this->EE->view->cp_page_title = lang('reeservation_module_name');
         }
@@ -1508,7 +1508,7 @@ class Reeservation_mcp {
         		);
     	}
         
-        if ($this->EE->config->item('app_version')>=260)
+        if (version_compare(APP_VER, '2.6.0', '>='))
         {
         	$this->EE->view->cp_page_title = lang('reeservation_module_name');
         }
@@ -1544,7 +1544,7 @@ class Reeservation_mcp {
     
     function format_date($one=false, $two=false, $three=true)
     {
-    	if ($this->EE->config->item('app_version')>=260)
+    	if (version_compare(APP_VER, '2.6.0', '>='))
     	{
 			return $this->EE->localize->format_date($one, $two, $three);
 		}

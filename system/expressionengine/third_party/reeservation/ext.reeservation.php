@@ -205,14 +205,14 @@ class Reeservation_ext {
     		{
     			for ($j = 0; $j < count($matches['0']); $j++)
     			{
-                    $email_msg = str_replace($matches['0'][$j], $this->EE->localize->decode_date($matches['1'][$j], $booking->row('date_from')), $email_msg);
+                    $email_msg = str_replace($matches['0'][$j], $this->format_date($matches['1'][$j], $booking->row('date_from')), $email_msg);
     			}
     		}
             if (preg_match_all("/".LD."date_to\s+format=[\"'](.*?)[\"']".RD."/is", $email_msg, $matches))
     		{
     			for ($j = 0; $j < count($matches['0']); $j++)
     			{
-                    $email_msg = str_replace($matches['0'][$j], $this->EE->localize->decode_date($matches['1'][$j], $booking->row('date_to')), $email_msg);
+                    $email_msg = str_replace($matches['0'][$j], $this->format_date($matches['1'][$j], $booking->row('date_to')), $email_msg);
     			}
     		}
             
@@ -238,14 +238,14 @@ class Reeservation_ext {
     		{
     			for ($j = 0; $j < count($matches['0']); $j++)
     			{
-                    $email_msg = str_replace($matches['0'][$j], $this->EE->localize->decode_date($matches['1'][$j], $booking->row('date_from')), $email_msg);
+                    $email_msg = str_replace($matches['0'][$j], $this->format_date($matches['1'][$j], $booking->row('date_from')), $email_msg);
     			}
     		}
             if (preg_match_all("/".LD."date_to\s+format=[\"'](.*?)[\"']".RD."/is", $email_msg, $matches))
     		{
     			for ($j = 0; $j < count($matches['0']); $j++)
     			{
-                    $email_msg = str_replace($matches['0'][$j], $this->EE->localize->decode_date($matches['1'][$j], $booking->row('date_to')), $email_msg);
+                    $email_msg = str_replace($matches['0'][$j], $this->format_date($matches['1'][$j], $booking->row('date_to')), $email_msg);
     			}
     		}
             
@@ -271,14 +271,14 @@ class Reeservation_ext {
     		{
     			for ($j = 0; $j < count($matches['0']); $j++)
     			{
-                    $email_msg = str_replace($matches['0'][$j], $this->EE->localize->decode_date($matches['1'][$j], $booking->row('date_from')), $email_msg);
+                    $email_msg = str_replace($matches['0'][$j], $this->format_date($matches['1'][$j], $booking->row('date_from')), $email_msg);
     			}
     		}
             if (preg_match_all("/".LD."date_to\s+format=[\"'](.*?)[\"']".RD."/is", $email_msg, $matches))
     		{
     			for ($j = 0; $j < count($matches['0']); $j++)
     			{
-                    $email_msg = str_replace($matches['0'][$j], $this->EE->localize->decode_date($matches['1'][$j], $booking->row('date_to')), $email_msg);
+                    $email_msg = str_replace($matches['0'][$j], $this->format_date($matches['1'][$j], $booking->row('date_to')), $email_msg);
     			}
     		}
             
@@ -299,6 +299,19 @@ class Reeservation_ext {
         }
         
         return true;	
+    }
+    
+    
+    function format_date($one='', $two='', $three=true)
+    {
+    	if (version_compare(APP_VER, '2.6.0', '>='))
+    	{
+			return $this->EE->localize->format_date($one, $two, $three);
+		}
+		else
+		{
+			return $this->EE->localize->decode_date($one, $two, $three);
+		}
     }
 
 }
