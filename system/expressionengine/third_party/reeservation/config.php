@@ -3,7 +3,7 @@
 if ( ! defined('REESERVATION_ADDON_NAME'))
 {
 	define('REESERVATION_ADDON_NAME',         'rEEservation');
-	define('REESERVATION_ADDON_VERSION',      '2.7.7');
+	define('REESERVATION_ADDON_VERSION',      '2.7.8');
 }
 
 $config['name'] = REESERVATION_ADDON_NAME;

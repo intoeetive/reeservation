@@ -170,6 +170,7 @@ class Reeservation_ext {
                         'name'				=> $booking->row('name'),
                         'email'				=> $customer_email,
                         'phone'				=> $booking->row('phone'),
+                        'places'				=> $booking->row('places'),
                         'old_status'		=> $this->EE->lang->line($booking->row('status')),
 						'status'	     	=> $this->EE->lang->line($newstatus),
 						'site_name'			=> $this->EE->config->item('site_name'),
